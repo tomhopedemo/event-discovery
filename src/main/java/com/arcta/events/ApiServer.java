@@ -8,7 +8,6 @@ import org.apache.camel.impl.DefaultCamelContext;
 import java.util.Map;
 
 import static com.arcta.events.Util.readString;
-import static com.arcta.events.Util.sout;
 import static org.apache.camel.Exchange.*;
 class ApiServer {
     final Dirs dirs;
@@ -34,6 +33,7 @@ class ApiServer {
             context.stop();
         }
     }
+
     class RestRequestProcessor implements Processor {
         public void process(Exchange exchange)  {
             try { String date = exchange.getIn().getHeader("date", String.class);

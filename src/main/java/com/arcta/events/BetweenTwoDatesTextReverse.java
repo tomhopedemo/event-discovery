@@ -1,24 +1,28 @@
 package com.arcta.events;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
-import static com.arcta.events.Util.Months.MONTHS_STANDARD_ENG;
+
+import static com.arcta.events.HyphenMatchers.M_HYPHENS_TO;
 import static com.arcta.events.M_Month.M_MONTH_ENG;
 import static com.arcta.events.M_Static.M_DAY_ORDINALO;
 import static com.arcta.events.M_Static.M_YEAR_STRONG;
 import static com.arcta.events.M_Weekday.M_WEEKDAYO_ENG;
-import static com.arcta.events.HyphenMatchers.M_HYPHENS_TO;
+import static com.arcta.events.Util.Months.MONTHS_STANDARD_ENG;
 import static com.arcta.events.Util.set;
+
 class BetweenTwoDatesTextReverse extends DateMatcher { // ------------ (1.REVERSE) month date
-    public DateMeta matchInternal(String text){         //may 21st 2018 may 21 18:00 okay fine, but may 18:00 - cannot end with colon
-        String dayMonthYear =  M_WEEKDAYO_ENG + "[,]?[ ]?" + M_MONTH_ENG + " " + M_DAY_ORDINALO + "[ |\u00A0|\\.|,]" + M_HYPHENS_TO + "[ ]?" + M_DAY_ORDINALO + "[ ]?" + M_YEAR_STRONG + "(?!:)";
+    public DateMeta matchInternal(String text) {         //may 21st 2018 may 21 18:00 okay fine, but may 18:00 - cannot end with colon
+        String dayMonthYear = M_WEEKDAYO_ENG + "[,]?[ ]?" + M_MONTH_ENG + " " + M_DAY_ORDINALO + "[ |\u00A0|\\.|,]" + M_HYPHENS_TO + "[ ]?" + M_DAY_ORDINALO + "[ ]?" + M_YEAR_STRONG + "(?!:)";
         Set<List<Calendar.Date>> betweenSet = set();
         DateMeta meta = new DateMeta();
         Matcher matcher = Util.matcher(dayMonthYear, text);
-        while (matcher.find()){
+        while (matcher.find()) {
             getIndexPairs(text, meta, matcher.start(), matcher.end());
-            Calendar.Date date_from = new Calendar.Date(); Calendar.Date date_to = new Calendar.Date();
+            Calendar.Date date_from = new Calendar.Date();
+            Calendar.Date date_to = new Calendar.Date();
             date_from.dateDay = matcher.group(3);
             date_from.dateMonth = MONTHS_STANDARD_ENG.get(matcher.group(2));
             date_from.dateYear = matcher.group(8);
@@ -27,11 +31,17 @@ class BetweenTwoDatesTextReverse extends DateMatcher { // ------------ (1.REVERS
             date_to.dateYear = matcher.group(8);
             List<Calendar.Date> dates_list = constructIntermediateDates(date_from, date_to);
             if (Util.empty(dates_list)) continue;
-            for (Calendar.Date date : dates_list) { Util.MultiList<Integer, Integer> indexPairsToRemove = new Util.MultiList<>();
+            for (Calendar.Date date : dates_list) {
+                Util.MultiList<Integer, Integer> indexPairsToRemove = new Util.MultiList<>();
                 indexPairsToRemove.add(new Util.Multi(matcher.start(), matcher.end()));
-                date.indexPairs = indexPairsToRemove;}
+                date.indexPairs = indexPairsToRemove;
+            }
             dates_list.forEach(d -> d.note = getClass().getSimpleName());
-            betweenSet.add(dates_list);}
+            betweenSet.add(dates_list);
+        }
         if (Util.empty(betweenSet)) return null;
         meta.betweenList = new ArrayList<>(betweenSet);
-        meta.between = Util.get(meta.betweenList,0); return meta;}}
+        meta.between = Util.get(meta.betweenList, 0);
+        return meta;
+    }
+}

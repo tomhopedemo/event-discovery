@@ -1,13 +1,17 @@
 package com.arcta.events;
+
 import java.util.regex.Matcher;
+
 import static com.arcta.events.Calendar.M_YEAR_CUR_OR_NEX;
 import static com.arcta.events.M_Static.*;
+
 class SlashDotDateSingleTime extends DateTimeMatcher {
     Util.MultiList<Calendar.Date, Time> matchInternal(String text) {
         String dayMonthYear = "(0|1|2|3)([0-9])(/|\\.)(0|1)([0-9])\\3(20)?" + M_YEAR_CUR_OR_NEX + SPACESO + "([0-9]{1,2})[:|\\.]([0-5])(0|5)" + MWO + "(am|pm)?";
         Util.MultiList<Calendar.Date, Time> dateTimes = new Util.MultiList<>();
         Matcher matcher = Util.matcher(dayMonthYear, text);
-        while (matcher.find()) { Calendar.Date date = new Calendar.Date();
+        while (matcher.find()) {
+            Calendar.Date date = new Calendar.Date();
             date.dateDay = String.valueOf(Integer.valueOf(matcher.group(1) + matcher.group(2)));
             Integer month = Integer.valueOf(matcher.group(4) + matcher.group(5));
             if (month > 12) continue;
@@ -20,4 +24,8 @@ class SlashDotDateSingleTime extends DateTimeMatcher {
             time.amPm = matcher.group(11);
             time.provenance = getClass().getSimpleName();
             time.convertTo24H();
-            dateTimes.add(new Util.Multi<>(date, time));} return dateTimes;}}     // 17/11/(20)20 7.30(pm)
+            dateTimes.add(new Util.Multi<>(date, time));
+        }
+        return dateTimes;
+    }
+}     // 17/11/(20)20 7.30(pm)
