@@ -1,4 +1,4 @@
-**Skedge**
+**Event Discovery**
 
 Parses, analyzes, filters and cleans scraped web data, to output a curated list of events for each configured city. 
 
