@@ -5,6 +5,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -121,7 +122,9 @@ class Jutil {
         List<Node> childNodes = element.childNodes();
         if (Util.intersection(element.classNames(), excludedClasses)) return null;
         if (childNodes == null || childNodes.size() == 0) {
-            return new Util.Multi(element.text(), Util.map(0, element));
+            HashMap<Integer, Element> map = new HashMap<>();
+            map.put(0, element);
+            return new Util.Multi(element.text(), map);
         }
         return text(childNodes, excludedTags, excludedClasses, exclusionAttribute, restrictedToTags, restrictedToClasses, restrictedToIds, restrictedToAttribute, gapClass, gapTag);
     }

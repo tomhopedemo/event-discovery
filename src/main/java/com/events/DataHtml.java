@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 import static com.events.Context.LanguageContext.andWords;
-import static com.events.Util.map;
 
 class DataHtml {
     static final List<String> BAD_CINEMA = Util.list("met opera", "met opera live", "nt live");
@@ -105,7 +104,7 @@ class DataHtml {
         LinkedList<DisplayEvent> orderedByArea = new LinkedList<>();
         Util.MultiList<Double, String> areasOrderedByProximityLondon = London.areasOrderedByProximity(ctx.area);
         if (Util.empty(areasOrderedByProximityLondon)) return new LinkedList<>(eventList);
-        List<String> iteratedArea = Util.list();
+        List<String> iteratedArea = new ArrayList<>();
         for (Util.Multi<Double, String> distanceArea : areasOrderedByProximityLondon.underlying) {
             String area = distanceArea.b;
             if (Util.containsIgnoreCase(area, iteratedArea)) continue;
@@ -147,7 +146,7 @@ class DataHtml {
     }
 
     List<DisplayEvent> generateFestivalEvents(com.events.date.Calendar.Date date) {
-        List<DisplayEvent> events = Util.list();
+        List<DisplayEvent> events = new ArrayList<>();
         List<String> refs = loadFestivals(date);
         for (String ref : refs) {
             List<String> urls = inputData.getUrls(ref);
@@ -162,7 +161,7 @@ class DataHtml {
     }
 
     List<String> loadFestivals(com.events.date.Calendar.Date date) {
-        List<String> festivals = Util.list();
+        List<String> festivals = new ArrayList<>();
         List<String> refs = inputData.getFestivals();
         Map<String, List<com.events.date.Calendar.Date>> festivalDates = parseFestivalDates(refs);
         for (String festival : festivalDates.keySet()) {
@@ -178,7 +177,7 @@ class DataHtml {
     Map<String, List<com.events.date.Calendar.Date>> parseFestivalDates(List<String> refs) {
         LanguageContext languageContext = new LanguageContext("", "", "uk");
         DateContext dateContext = new DateContext("", "");
-        Map<String, List<com.events.date.Calendar.Date>> festivalDates = map();
+        Map<String, List<com.events.date.Calendar.Date>> festivalDates = new HashMap<>();
         for (String ref : refs) {
             String notes = inputData.getNotes(ref);
             String dateStatic = Context.Interpret.bang("_D", notes);
@@ -189,7 +188,7 @@ class DataHtml {
     }
 
     List<DisplayEvent> generateEvents(String data) {
-        List<DisplayEvent> events = Util.list();
+        List<DisplayEvent> events = new ArrayList<>();
         if (Util.empty(data)) return events;
         List<String> refs = inputData.ABFestivalLocalLong();
         for (String record : data.split(Shared.DELIMITER_RECORD_READABLE)) {
@@ -236,7 +235,7 @@ class DataHtml {
     }
 
     List<DisplayEvent> mergeEvents(List<DisplayEvent> events) {
-        List<DisplayEvent> tempMerge = Util.list();
+        List<DisplayEvent> tempMerge = new ArrayList<>();
         for (DisplayEvent event : events) {
             if (event.source.equals(event.link)) {
                 tempMerge.add(event);
@@ -442,7 +441,7 @@ class DataHtml {
     void cleanBetweenBrackets(DisplayEvent displayEvent) {
         NList split = Util.split(displayEvent.title, " ");
         if (split.size() > 2) {
-            List<Integer> indexesToRemove = Util.list();
+            List<Integer> indexesToRemove = new ArrayList<>();
             boolean removing = false;
             for (int i = 2; i < split.size(); i++) {
                 String s = split.get(i);
@@ -512,8 +511,8 @@ class DataHtml {
     }
 
     void filterRepeatNames(List<DisplayEvent> eventList) {
-        List<String> longnames = Util.list();
-        List<DisplayEvent> toRemove = Util.list();
+        List<String> longnames = new ArrayList<>();
+        List<DisplayEvent> toRemove = new ArrayList<>();
         for (DisplayEvent a : eventList) {
             if (longnames.contains(a.title)) {
                 toRemove.add(a);
@@ -525,7 +524,7 @@ class DataHtml {
     }
 
     void filterRepeatEvents(List<DisplayEvent> eventList) {
-        List<DisplayEvent> toRemove = Util.list();
+        List<DisplayEvent> toRemove = new ArrayList<>();
         for (DisplayEvent a : eventList) {
             if (toRemove.contains(a)) continue;
             if (a.title.length() < 20) continue;
@@ -542,7 +541,7 @@ class DataHtml {
     }
 
     void filterRepeatEventsSameOrganizer(List<DisplayEvent> eventList) {
-        List<DisplayEvent> toRemove = Util.list();
+        List<DisplayEvent> toRemove = new ArrayList<>();
         for (DisplayEvent a : eventList) {
             if (toRemove.contains(a)) continue;
             for (DisplayEvent b : eventList) {
@@ -556,13 +555,13 @@ class DataHtml {
     }
 
     void filterRepeatFilms(List<DisplayEvent> eventList) {
-        List<DisplayEvent> filmLike = Util.list();
+        List<DisplayEvent> filmLike = new ArrayList<>();
         for (DisplayEvent htmlEvent : eventList) {
             if (htmlEvent.title.endsWith(" 15") && htmlEvent.title.length() > 8) {
                 filmLike.add(htmlEvent);
             }
         }
-        List<DisplayEvent> blacklist = Util.list();
+        List<DisplayEvent> blacklist = new ArrayList<>();
         for (DisplayEvent filmlikeevent : filmLike) {
             for (DisplayEvent event : eventList) {
                 if (event == filmlikeevent) continue;
@@ -577,8 +576,8 @@ class DataHtml {
     LinkedList<DisplayEvent> orderEventsInCity(com.events.date.Calendar.CalendarDate baseDate, List<DisplayEvent> events) {
         LinkedList<DisplayEvent> orderedEvents = new LinkedList<>();
         Set<String> iteratedTitles = Util.set();
-        List<String> trustedReferences = Util.list();
-        List<String> A1References = Util.list();
+        List<String> trustedReferences = new ArrayList<>();
+        List<String> A1References = new ArrayList<>();
         LinkedList<DisplayEvent> trustedEvents = new LinkedList<>();
         LinkedList<DisplayEvent> A1Events = new LinkedList<>();
         LinkedList<DisplayEvent> repeatedList = new LinkedList<>();
@@ -627,11 +626,11 @@ class DataHtml {
         Collections.shuffle(trustedEvents);
         Collections.shuffle(A1Events);
         Collections.shuffle(untrustedlist);
-        List<DisplayEvent> trustedQuality = Util.list(); //top
-        List<DisplayEvent> trustedLowerquality = Util.list();
+        List<DisplayEvent> trustedQuality = new ArrayList<>(); //top
+        List<DisplayEvent> trustedLowerquality = new ArrayList<>();
         deprioritizeLowerQuality(trustedEvents, trustedQuality, trustedLowerquality);
-        List<DisplayEvent> A1Quality = Util.list(); //second
-        List<DisplayEvent> A1Lowerquality = Util.list();
+        List<DisplayEvent> A1Quality = new ArrayList<>(); //second
+        List<DisplayEvent> A1Lowerquality = new ArrayList<>();
         deprioritizeLowerQuality(A1Events, A1Quality, A1Lowerquality);
         addOrPromote(orderedEvents, A1Lowerquality);
         addOrPromote(orderedEvents, trustedLowerquality);
@@ -707,7 +706,7 @@ class DataHtml {
     static List<String> musicalExclusions = Util.list("quiz", "comedy", "theatre", "cabaret");
 
     void classify(List<DisplayEvent> events) {
-        Map<String, String> classificationSymbol = map();
+        Map<String, String> classificationSymbol = new HashMap<>();
         classificationSymbol.put("music", "\u2669");
         List<String> cinemaIndicators = Util.list("cinema", "prince charles");
         List<String> comedyIndicators = Util.list("comedy", "bill murray", "camden head");
@@ -775,7 +774,7 @@ class DataHtml {
         String title = displayEvent.title;
         if (title == null) return false;
         boolean found = false;
-        List<Integer> wordsToRemove = Util.list();
+        List<Integer> wordsToRemove = new ArrayList<>();
         NList split = Util.split(title, " ");
         for (int j = 0; j < split.size(); j++) {
             String word = split.get(j);

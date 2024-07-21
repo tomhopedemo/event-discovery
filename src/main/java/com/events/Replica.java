@@ -1,11 +1,12 @@
 package com.events;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.events.FiltersLists.REPEAT_PHRASES_ALLOWED;
-import static com.events.Util.map;
 import static com.events.Util.sout;
 
 class Replica {
@@ -52,10 +53,10 @@ class Replica {
     }
 
     static List<Integer> replicaPhraseIndices(String string, int phraseLength, Context.LanguageContext langCtx) {
-        List<Integer> indexesToRemove = Util.list();
+        List<Integer> indexesToRemove = new ArrayList<>();
         Util.MultiList<Integer, String> words = PhraseUtil.words(string);
         if (words.size() < phraseLength) return indexesToRemove;
-        Map<String, Util.Multi<Integer, Integer>> values = map();
+        Map<String, Util.Multi<Integer, Integer>> values = new HashMap<>();
         for (int i = 0; i < words.size() - (phraseLength - 1); i++) {
             Util.Multi<Integer, String> previousWord = (i == 0) ? null : words.get(i - 1);
             Util.MultiList<Integer, String> list = new Util.MultiList<>();
@@ -77,7 +78,7 @@ class Replica {
     }
 
     static void cleanRepeatWord(Util.StringMutable clean) {
-        List<Integer> indicesToExclude = Util.list();
+        List<Integer> indicesToExclude = new ArrayList<>();
         Util.NList split = Util.split(clean.string, "\\s+");
         if (split.size() < 2) return;
         for (int i = 0; i < split.size() - 1; i++) {

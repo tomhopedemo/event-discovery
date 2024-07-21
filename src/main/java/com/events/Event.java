@@ -5,14 +5,10 @@ import com.events.date.Calendar;
 import com.events.date.Time;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static com.events.Shared.DELIMITER_INLINE;
 import static com.events.Util.list;
-import static com.events.Util.map;
 
 class Event implements Serializable {
     Event() {
@@ -27,8 +23,8 @@ class Event implements Serializable {
     String originalText;    //field 2
     String link;   //field 3
     String source; //field 4
-    Map<Calendar.Date, String> dateUrl = map(); //field 5
-    Map<Calendar.Date, Time> dateTimes = map(); //field 6
+    Map<Calendar.Date, String> dateUrl = new HashMap<>(); //field 5
+    Map<Calendar.Date, Time> dateTimes = new HashMap<>(); //field 6
     String id; //field 7
     String district; //field 11
     boolean curtailed = false; //--------- not persisted
@@ -89,7 +85,7 @@ class Event implements Serializable {
     }
 
     static Map<Calendar.Date, Time> reconstructDateTimeMap(String input) {
-        Map<Calendar.Date, Time> date_time = map();
+        Map<Calendar.Date, Time> date_time = new HashMap<>();
         if (Util.empty(input)) return date_time;
         List<String> split = Util.split(input, "#DATDAT#").underlying;
         for (String raw : split) {
@@ -104,7 +100,7 @@ class Event implements Serializable {
     }
 
     static Map<Calendar.Date, String> reconstructDateUrlMap(String input) {
-        Map<Calendar.Date, String> dateUrl = map();
+        Map<Calendar.Date, String> dateUrl = new HashMap<>();
         if (Util.empty(input)) return dateUrl;
         List<String> split = Util.split(input, "#DUFDUF#").underlying;
         for (String raw : split) {

@@ -5,10 +5,7 @@ import com.events.date.DateMatcher;
 import com.events.date.Time;
 import org.jsoup.nodes.Element;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.events.Primary.REF_EVENTS;
 import static com.events.Util.*;
@@ -16,7 +13,7 @@ import static com.events.Util.*;
 class TableParser {
     static void make(String url, Context ctx, List<Element> elements, Util.MultiList<Integer, Element> indexElements, Util.MultiList<Integer, Calendar.Date> indexMy, BaseDirs dirs) {
         boolean foundTable = false;
-        Map<Element, String> elementText = map();
+        Map<Element, String> elementText = new HashMap<>();
         for (Element element : elements) {
             if ("table".equals(element.tagName())) {
                 foundTable = true;

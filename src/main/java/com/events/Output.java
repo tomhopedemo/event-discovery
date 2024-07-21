@@ -22,8 +22,8 @@ class Output {
     static void execute(List<String> refs, Dirs dirs, InputData inputData) {
         List<Event> events = list();
         sout("Output - executing " + Util.size(refs) + " refs");
-        filtered = map();
-        filteredByDate = map();
+        filtered = new HashMap<>();
+        filteredByDate = new HashMap<>();
         for (String ref : refs) {
             if (Util.empty(ref)) continue;
             Context ctx = Context.make(ref, inputData);

@@ -6,7 +6,6 @@ import java.util.*;
 
 import static com.events.date.M_Month.M_MONTHO_ENG;
 import static com.events.date.M_Month.M_MONTH_ENG;
-import static com.events.Util.map;
 
 public class M_Static {
     public static final List<String> MONTHS_LONG = Util.list("january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december");
@@ -42,12 +41,12 @@ public class M_Static {
     public static final String M_EMPTY = "()";
 
     static {
-        SEASONS = Util.map();
+        SEASONS = new HashMap<>();
         SEASONS.put("spring", new com.events.date.Calendar.Date("1", "mar", null));
         SEASONS.put("summer", new com.events.date.Calendar.Date("1", "jun", null));
         SEASONS.put("autumn", new com.events.date.Calendar.Date("1", "sep", null));
         SEASONS.put("winter", new com.events.date.Calendar.Date("1", "dec", null));
-        MONTH_DAY_MAP = Util.map();
+        MONTH_DAY_MAP = new HashMap<>();
         MONTH_DAY_MAP.put("jan", 31);
         MONTH_DAY_MAP.put("feb", 28);
         MONTH_DAY_MAP.put("mar", 31);

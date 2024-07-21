@@ -2,6 +2,7 @@ package com.events.date;
 
 import com.events.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -20,7 +21,7 @@ class MonthExact extends DateMatcher {
 
     public DateMeta matchInternal(String text) {
         Matcher matcher = Util.matcher("\u2021" + SPACESO + "\\b" + monthMatcher + "\\b" + SPACESO + "\u2021", text);
-        List<Calendar.Date> dates = Util.list();
+        List<Calendar.Date> dates = new ArrayList<>();
         while (matcher.find()) {
             Calendar.Date date = new Calendar.Date();
             date.dateMonth = monthsStandard.get(matcher.group(1));

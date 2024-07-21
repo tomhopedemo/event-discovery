@@ -28,7 +28,7 @@ class Html {
     Map<Integer, DisplayEvent> execute(HtmlContext ctx) {
         File[] files = new File(dirs.getOutputDir()).listFiles();
         if (files == null) files = new File[0];
-        Map<com.events.date.Calendar.Date, File> datefile = map();
+        Map<com.events.date.Calendar.Date, File> datefile = new HashMap<>();
         for (File file : files) {
             datefile.put(extractDate(file.getName()), file);
         }
@@ -325,7 +325,7 @@ class Html {
         }
 
         void execute() {
-            Map<String, String> refTheatre = map();
+            Map<String, String> refTheatre = new HashMap<>();
             List<String> refs = londonInputData.getWestEndData();
             LinkedHashMap<String, String> refUrl = new LinkedHashMap<>();
             for (String ref : refs) {
@@ -407,7 +407,7 @@ class Html {
 //            sb.append(menu);
             List<String> types = Util.list("Music", "Theatre", "Comedy", "Film");
             List<String> secondaryLocations = new ArrayList<>(list);
-            List<String> areas = Util.list();
+            List<String> areas = new ArrayList<>();
             areas.addAll(types);
             areas.add("anywhere");
             areas.addAll(secondaryLocations);

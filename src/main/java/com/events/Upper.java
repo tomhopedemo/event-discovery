@@ -1,16 +1,16 @@
 package com.events;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.events.FiltersLists.START_QUOTES;
 import static com.events.Util.list;
-import static com.events.Util.map;
 
 class Upper {
     static final List<String> FORCE_UPPERCASES_CONDITIONAL = list("LA", "IRA");
     static final List<String> FORCE_UPPERCASES = list("QM", "GRL", "GNG", "LDN", "LGBT", "LGBTQ+", "LGBTQ", "DSM", "AJR", "MPG", "BMA", "NRG", "WXW", "MGF", "SSO", "GND", "DB", "DH", "YBC", "LRBS", "MC", "BJ", "ISQ", "PJ", "JD", "JG", "JW", "JP", "JQ", "K-X-P", "DJ", "AJ", "BC", "HK", "HC", "TV", "TJ", "U.K", "UK", "CD", "WSTRN", "LFF", "JMSN", "CDR", "SPQR", "ESP", "LRB", "EU", "MBE", "EUT", "ADC", "TCR", "LPO", "XCX", "MPB", "LIAF", "NYE", "CSI", "R&B", "ABC", "DV", "BF", "BYO", "RSNO", "VFD", "RSNO", "DVS1", "ENTT", "CF19", "LIMF", "NCT", "FTS", "TTW", "RCM", "RCMJD", "ECFF", "J.P.", "TC", "UCL", "LKFF", "L.A", "L.A.", "BBC", "RWCMD", "(UK)", "(US)", "UK", "AC30", "BDRMM", "AKA", "A.K.A", "JFK", "Q&A", "OCD", "SYML", "AC/DC", "EFG", "UKJFF", "RSC", "OMD", "ADF", "C.L.A.W.", "RBC", "CBSO", "ELO", "CYOA", "DS:UK", "RPO", "RIBA", "AJR", "IAM", "SCO", "12A", "3D", "3-D", "JZ", "KCL", "DG", "MHQT", "WIP", "DVTR", "MLB", "FX", "S-X", "LSA", "LSO", "D.C", "CBD", "WWE", "RRR", "HVOB", "XXII", "XXIII", "XIV", "IV", "VI", "VII", "VIII", "XV", "I", "II", "III", "XII", "(WIP)", "TV", "(UK)", "(USA)", "EP", "LGBTQ", "LGBTQ+", "LGBT", "DC", "RPG", "BTS", "(III)", "IV", "VI", "VII", "VIII", "(PG)", "(PG*)", "(12A)", "[12A]", "[R18]", "[TBC]", "SDFF", "LIFF", "LIFF:", "LITM", "NLTS:", "UKBP", "TOTP", "IQ", "GNL", "RBE", "RCM", "XI", "NW5");
-    static final Map<String, String> CASE_SPECIFIC = map();
+    static final Map<String, String> CASE_SPECIFIC = new HashMap<>();
     static final List<Character> VOWELS = list('a', 'e', 'i', 'o', 'u', 'y');
     static final List<String> COMMON_SHORT = list("eat");
 

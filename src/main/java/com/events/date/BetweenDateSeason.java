@@ -1,25 +1,22 @@
 package com.events.date;
 
-import com.events.date.Calendar;
-import com.events.date.DateMatcher;
-import com.events.date.DateMeta;
 import com.events.Util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 
-import static com.events.HyphenMatchers.M_HYPHENS;
-import static com.events.Util.Months.MONTHS_STANDARD_ENG;
-import static com.events.Util.*;
+import static com.events.date.HyphenMatchers.M_HYPHENS;
 import static com.events.date.M_Static.*;
+import static com.events.date.Months.MONTHS_STANDARD_ENG;
 
 class BetweenDateSeason extends DateMatcher {
     public DateMeta matchInternal(String text) {
         String regex = M_DAY_MONTH_YEAR + " " + M_HYPHENS + " " + M_SEASON + " " + M_YEAR;
-        Matcher matcher = matcher(regex, text);
-        Set<List<Calendar.Date>> betweenSet = set();
+        Matcher matcher = DateUtils.matcher(regex, text);
+        Set<List<Calendar.Date>> betweenSet = new HashSet<>();
         DateMeta meta = new DateMeta();
         while (matcher.find()) {
             getIndexPairs(text, meta, matcher);
@@ -37,7 +34,7 @@ class BetweenDateSeason extends DateMatcher {
             betweenSet.add(dates);
         }
         meta.betweenList = new ArrayList<>(betweenSet);
-        meta.between = get(meta.betweenList, 0);
+        meta.between = DateUtils.get(meta.betweenList, 0);
         return meta;
     }
 }

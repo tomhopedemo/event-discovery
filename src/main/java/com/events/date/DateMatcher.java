@@ -7,11 +7,11 @@ import java.util.regex.Matcher;
 
 import static com.events.date.DateMatcher.MatcherLists.*;
 import static com.events.Util.Lang.ENG;
-import static com.events.Util.Months.MONTHS_STANDARD_ENG;
 import static com.events.Util.*;
 import static com.events.date.DateTimeUtils.removeIndexPairs;
 import static com.events.date.M_Lang.*;
 import static com.events.date.M_Month.M_MONTH_ENG;
+import static com.events.date.Months.MONTHS_STANDARD_ENG;
 import static com.events.date.Weekdays.WEEKDAYS_ORDER;
 import static java.lang.Integer.parseInt;
 import static java.util.Collections.sort;
@@ -371,7 +371,7 @@ public abstract class DateMatcher {
         abstract Map<String, Time> match(String text);
 
         public static Map<String, Time> matchWeekdayTime(String text) {
-            HashMap<String, Time> map = map();
+            HashMap<String, Time> map = new HashMap<>();
             for (DayTimeMatcher dayTimeMatcher : WEEKDAY_MATCHERS) {
                 Map<String, Time> newMap = dayTimeMatcher.match(text);
                 Util.addSafe(map, newMap);

@@ -2,6 +2,7 @@ package com.events.date;
 
 import com.events.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -23,7 +24,7 @@ class SingleTime extends TimeMatcher {
         String regex = "(?<!£|£ |£\\d+|£\u00A0|0|1|2)(time|onstage|time |at|doors|start| kl\\. )?" + "[:]?" + "(^|\\s*|\\()" + timex + "(?![0-9])";
         String text = clean.string;
         Matcher matcher = Util.matcher(regex, text);
-        List<Time> to_return = Util.list();
+        List<Time> to_return = new ArrayList<>();
         while (matcher.find()) {
             int start = Util.list("time", "at", "doors").contains(matcher.group(1)) ? matcher.start() : matcher.start(3);
             int end = matcher.end();

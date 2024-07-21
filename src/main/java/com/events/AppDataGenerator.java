@@ -90,7 +90,7 @@ class AppDataGenerator {
     static void writeOutput(MapList<com.events.date.Calendar.Date, Multi<Time, String>> dateEvent, Dirs dirs, InputData inputData) {
         for (com.events.date.Calendar.Date date : dateEvent.orderedKeys()) {
             if (com.events.date.Calendar.CalendarDate.diffFromCurrent(date) < 90 && com.events.date.Calendar.indexOf(date) > -1) {
-                List<String> output = list();
+                List<String> output = new ArrayList<>();
                 List<Util.Multi<Time, String>> multis = dateEvent.get(date);
                 multis.sort((o1, o2) -> o1.a.compareTo(o2.a));
                 for (Util.Multi<Time, String> multi : multis) {
@@ -104,7 +104,7 @@ class AppDataGenerator {
 
     static void writeToScreen(MapList<MultiA<String>, ScreenEvent> refDateTimeEvent, Map<String, String> filtered, Map<Util.Multi<String, com.events.date.Calendar.Date>, String> filteredByDate, Dirs dirs) {
         for (MultiA<String> key : refDateTimeEvent.keys()) {
-            List<ScreenEvent> originalEvents = list();
+            List<ScreenEvent> originalEvents = new ArrayList<>();
             for (Event loadedEvent : IntermediateData.getMergedEventList(key.a, dirs)) {
                 for (Map.Entry<com.events.date.Calendar.Date, Time> datetime : loadedEvent.dateTimes.entrySet()) {
                     originalEvents.add(new ScreenEvent(datetime.getKey(), datetime.getValue(), loadedEvent.id, loadedEvent.name));
@@ -123,7 +123,7 @@ class AppDataGenerator {
             }
             originalEvents.sort(screenEventComparator);
             Collections.reverse(originalEvents);
-            List<String> safeFilters = list();
+            List<String> safeFilters = new ArrayList<>();
             for (ScreenEvent originalEvent : originalEvents) {
                 if (com.events.date.Calendar.Date.strictlyBeforeAfterCheck(originalEvent.date, com.events.date.Calendar.currentDate())) continue;
                 if (com.events.date.Calendar.Date.daysBetween(com.events.date.Calendar.currentDate(), originalEvent.date) > 90) continue;
@@ -337,7 +337,7 @@ class AppDataGenerator {
     }
 
     static class Category {
-        static Map<String, String> map = map();
+        static Map<String, String> map = new HashMap<>();
 
         static {
             map.put("screening", "cinema");

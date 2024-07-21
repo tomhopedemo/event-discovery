@@ -12,7 +12,7 @@ import static com.events.date.M_Month.M_MONTH_ENG;
 import static com.events.date.M_Static.M_DAY_ORDINALO;
 import static com.events.date.M_Static.M_YEAR;
 import static com.events.date.M_Weekday.M_WEEKDAY_ENG;
-import static com.events.Util.Months.MONTHS_STANDARD_ENG;
+import static com.events.date.Months.MONTHS_STANDARD_ENG;
 import static com.events.Util.list;
 
 class SingleDateDottedWDMYAlt extends DateMatcher {

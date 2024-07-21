@@ -7,9 +7,7 @@ import com.events.date.TimeMatcher;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static com.events.Primary.REF_EVENTS;
 
@@ -47,7 +45,7 @@ class DateSplitParser {
         if (!Util.empty(ctx.partialTag())) {
             List<Calendar.Date> singledates = DateMatcher.matchNoOverlapsPartial(text, ctx.lang, ctx.date, url.date);
             if (Util.empty(singledates)) return;
-            dateLists = Util.list();
+            dateLists = new ArrayList<>();
             for (Calendar.Date singledate : singledates) {
                 dateLists.add(Util.list(singledate));
             }
@@ -55,7 +53,7 @@ class DateSplitParser {
             dateLists = DateMatcher.matchNoOverlaps(text, ctx.lang, ctx.date);
         }
         Util.MultiList<String, List<Calendar.Date>> splitTextDate = new Util.MultiList<>();
-        Map<String, String> splitTextOriginal = Util.map();
+        Map<String, String> splitTextOriginal = new HashMap<>();
         Map<String, String> textHref = constructATextHrefMap(doc);
         for (int i = 0; i < dateLists.size(); i++) {
             List<Calendar.Date> dates = dateLists.get(i);
@@ -90,7 +88,7 @@ class DateSplitParser {
                 }
                 if (link != null) {
                     event.link = link;
-                    Map<Calendar.Date, String> newDateUrlMap = Util.map();
+                    Map<Calendar.Date, String> newDateUrlMap = new HashMap<>();
                     for (Calendar.Date date : Util.safeNull(event.dateUrl.keySet())) {
                         newDateUrlMap.put(date, event.link);
                     }
@@ -125,7 +123,7 @@ class DateSplitParser {
 
     static Map<String, String> constructATextHrefMap(Element doc) {
         if (doc == null) return null;
-        Map<String, String> map = Util.map();
+        Map<String, String> map = new HashMap<>();
         for (Element element : doc.getElementsByTag("a")) {
             String hrefText = element.text();
             String href = element.attr("href");

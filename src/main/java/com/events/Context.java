@@ -545,7 +545,7 @@ public class Context {
     List<String> tertiaryExclusion() {
         String exc = interpret.bang("_X");
         if (Util.empty(exc)) return null;
-        List<String> exclusions = Util.list();
+        List<String> exclusions = new ArrayList<>();
         Util.addAll(exclusions, Util.split(exc, "\\|").underlying);
         return exclusions;
     }

@@ -2,18 +2,18 @@ package com.events.date;
 
 import com.events.Util;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 
 import static com.events.date.M_Static.MWO;
 import static com.events.date.M_Static.SPACES;
 import static com.events.date.M_Weekday.M_WEEKDAY_ENG;
-import static com.events.Util.map;
 import static com.events.date.Weekdays.WEEKDAYS_STANDARD_ENG;
 
 class SingleTimeWeekdayBracketed extends DateMatcher.DayTimeMatcher {
     Map<String, Time> match(String text) {
-        Map<String, Time> weekdayTimes = map();
+        Map<String, Time> weekdayTimes = new HashMap<>();
         String time_date = "\\(" + MWO + "([0-9]{1,2})" + "([:|\\.][0-5][0|5])?" + MWO + "(am|pm)" + SPACES + M_WEEKDAY_ENG + MWO + "\\)";
         Matcher matcher = Util.matcher(time_date, text);
         while (matcher.find()) {

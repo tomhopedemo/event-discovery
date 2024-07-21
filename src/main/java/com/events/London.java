@@ -6,7 +6,7 @@ import static com.events.Util.list;
 
 class London {
     static Util.Table londonAreaConfig;
-    static final Map<String, List<String>> SUBPARTS = Util.map();
+    static final Map<String, List<String>> SUBPARTS = new HashMap<>();
     final static String LONDON_MAP = ",,,,,,Highgate,,,Harringay,,,,,\n" + ",,,Hampstead,,,Archway,Holloway,Finsbury Park,Stoke Newington,Hackney Downs,,,,\n" + ",,West Hampstead,Finchley Road,,,Kentish Town,Caledonian Road,Highbury Corner,Canonbury,Dalston,Kingsland,Homerton,Hackney Wick,Stratford\n" + ",,,Swiss Cottage,,,Camden,Barnsbury,Upper Street,Rosemary Gardens,Haggerston,London Fields,,,\n" + ",,North Kensington,St John's Wood,Regent's Park,Regent's Park,Euston,Kings Cross,Angel,Hoxton,Hoxton,Broadway Market,,,\n" + ",White City,Notting Hill,Paddington,Marylebone,Marylebone,Fitzrovia,Bloomsbury,Clerkenwell,Old Street,Shoreditch,Cambridge Heath,Bethnal Green,Bow,\n" + ",Shepherd's Bush,Holland Park,Hyde Park,Mayfair,Soho,Holborn,Chancery Lane,Farringdon,Barbican,Liverpool Street,Spitalfields,,,\n" + ",,Kensington,Hyde Park,Mayfair,Piccadilly,Covent Garden,Aldwych,St Pauls,Bank,Aldgate,Whitechapel,Limehouse,,Poplar\n" + ",,Kensington,Knightsbridge,Belgravia,Westminster,Waterloo,Southbank,Bankside,London Bridge,Tower Bridge,Wapping,Wapping,Canary Wharf,\n" + ",Turnham Green,Hammersmith,Earls Court,Chelsea,Pimlico,Lambeth,Southwark,Borough,Bermondsey,Bermondsey,RIVER,RIVER,RIVER,\n" + ",,RIVER,Fulham,RIVER,RIVER,Vauxhall,Kennington,Elephant,,,,Canada Water,Greenwich,\n" + ",,Barnes,RIVER,Battersea,Nine Elms,Stockwell,Camberwell,Peckham,,,Deptford,New Cross,Rotherhithe,\n" + ",,Putney,,Clapham,Clapham,Brixton,,,,,,,,\n" + ",,,,,Balham,Streatham,,,,,,,,\n" + ",,,,,,,,,Nunhead,,,,,";
 
     static {

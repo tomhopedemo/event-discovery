@@ -2,6 +2,7 @@ package com.events.date;
 
 import com.events.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -10,7 +11,7 @@ class TimeText extends TimeMatcher {
         String text = clean.string;
         if (Util.empty(text)) return null;
         Matcher matcher = Util.matcher("time:\\s([^\\s]+)\\s(^\\s+)\\s", text);
-        List<Time> to_return = Util.list();
+        List<Time> to_return = new ArrayList<>();
         while (matcher.find()) {
             Time timeIndicative = new Time();
             timeIndicative.textTime = matcher.group(1) + " " + matcher.group(2);

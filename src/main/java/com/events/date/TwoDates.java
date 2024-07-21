@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 
 import static com.events.date.M_Static.*;
 import static com.events.date.M_Weekday.M_WEEKDAYO_ENG;
-import static com.events.Util.Months.MONTHS_STANDARD_ENG;
+import static com.events.date.Months.MONTHS_STANDARD_ENG;
 import static com.events.Util.set;
 
 class TwoDates extends DateMatcher {

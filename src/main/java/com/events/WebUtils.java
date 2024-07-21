@@ -4,11 +4,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.events.Util.list;
-import static com.events.Util.map;
 
 class WebUtils {
     static final List<String> HASH_SUFFIX_URLS = list();
@@ -58,7 +58,7 @@ class WebUtils {
 
     static Map<String, String> hrefText(Element element) {
         if (element == null) return null;
-        Map<String, String> hrefText = map();
+        Map<String, String> hrefText = new HashMap<>();
         Elements aElements = element.getElementsByTag("a");
         if (aElements != null) {
             for (Element aElement : aElements) {

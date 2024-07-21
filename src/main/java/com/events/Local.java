@@ -3,10 +3,10 @@ package com.events;
 import com.events.ExecutionBlock.ApiServerBlock;
 import com.events.ExecutionBlock.LocalBlock;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.events.Util.list;
-import static com.events.Util.map;
 
 class Local {
     static String executionKey = "local";
@@ -14,7 +14,7 @@ class Local {
     static Map<String, ExecutionBlock> executionBlocks = createExecutionBlocks();
 
     static Map<String, ExecutionBlock> createExecutionBlocks() {
-        Map<String, ExecutionBlock> executionBlocks = map();
+        Map<String, ExecutionBlock> executionBlocks = new HashMap<>();
         executionBlocks.put("local", new LocalBlock()); //very useful
         executionBlocks.put("api", new ApiServerBlock()); //initial testing
         return executionBlocks;

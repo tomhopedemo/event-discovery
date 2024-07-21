@@ -42,7 +42,7 @@ public class Util {
     }
 
     public static List<Integer> integerList(int startInclusive, int endInclusive) {
-        List<Integer> toReturn = Util.list();
+        List<Integer> toReturn = new ArrayList<>();
         for (int i = startInclusive; i <= endInclusive; i++) {
             toReturn.add(i);
         }
@@ -314,16 +314,6 @@ public class Util {
         if (existing == null) return;
         if (empty(toAdd)) return;
         existing.putAll(toAdd);
-    }
-
-    public static <T, S> HashMap<T, S> map() {
-        return new HashMap<>();
-    }
-
-    public static <T, S> HashMap<T, S> map(T key, S value) {
-        HashMap<T, S> hashMap = map();
-        hashMap.put(key, value);
-        return hashMap;
     }
 
     public static String trim(String string) {
@@ -820,7 +810,7 @@ public class Util {
     }
 
     public static Map<String, String> readMap(String file, String delimiter) {
-        Map<String, String> map = map();
+        Map<String, String> map = new HashMap<>();
         for (String string : read(file)) {
             if (string.trim().equals("")) continue;
             String[] split = string.split(delimiter, -1);
@@ -844,7 +834,7 @@ public class Util {
     public static Map<String, String> charmap;
 
     static {
-        charmap = map();
+        charmap = new HashMap<>();
         charmap.put("è", "È");
         charmap.put("é", "É");
         charmap.put("ê", "Ê");
@@ -882,7 +872,7 @@ public class Util {
     }
 
     public static class CountMap<T> {
-        Map<T, Integer> map = map();
+        Map<T, Integer> map = new HashMap<>();
 
         void greaterThan(int greaterThanExclusive) {
             List<T> toRemove = new ArrayList<T>();
@@ -968,7 +958,7 @@ public class Util {
         }
 
         public Map<String, String> createMap(int columnA, int columnB) {
-            Map<String, String> map = map();
+            Map<String, String> map = new HashMap<>();
             for (List<String> row : underlying) {
                 if (row.size() >= Math.max(columnA, columnB) + 1) {
                     map.put(row.get(columnA), row.get(columnB));
@@ -1085,7 +1075,9 @@ public class Util {
         }
 
         public String reconstructReplacing(Integer index, String replacement) {
-            return reconstructReplacing(map(index, replacement));
+            HashMap<Integer, String> map = new HashMap<>();
+            map.put(index, replacement);
+            return reconstructReplacing(map);
         }
 
         public String reconstructExcept(List<Integer> except) {
@@ -1152,60 +1144,6 @@ public class Util {
 
     public enum Lang {ENG, DEU}
 
-    public static class Months {
-        public static final Map<String, String> MONTHS_STANDARD_ENG;
-        public static final Map<String, String> MONTHS_STANDARD_DEU;
-
-        static {
-            MONTHS_STANDARD_ENG = map();
-            MONTHS_STANDARD_ENG.put("jan", "jan");
-            MONTHS_STANDARD_ENG.put("feb", "feb");
-            MONTHS_STANDARD_ENG.put("mar", "mar");
-            MONTHS_STANDARD_ENG.put("apr", "apr");
-            MONTHS_STANDARD_ENG.put("may", "may");
-            MONTHS_STANDARD_ENG.put("jun", "jun");
-            MONTHS_STANDARD_ENG.put("jul", "jul");
-            MONTHS_STANDARD_ENG.put("aug", "aug");
-            MONTHS_STANDARD_ENG.put("sep", "sep");
-            MONTHS_STANDARD_ENG.put("oct", "oct");
-            MONTHS_STANDARD_ENG.put("nov", "nov");
-            MONTHS_STANDARD_ENG.put("dec", "dec");
-            MONTHS_STANDARD_ENG.put("january", "jan");
-            MONTHS_STANDARD_ENG.put("february", "feb");
-            MONTHS_STANDARD_ENG.put("march", "mar");
-            MONTHS_STANDARD_ENG.put("april", "apr");
-            MONTHS_STANDARD_ENG.put("june", "jun");
-            MONTHS_STANDARD_ENG.put("july", "jul");
-            MONTHS_STANDARD_ENG.put("august", "aug");
-            MONTHS_STANDARD_ENG.put("september", "sep");
-            MONTHS_STANDARD_ENG.put("october", "oct");
-            MONTHS_STANDARD_ENG.put("november", "nov");
-            MONTHS_STANDARD_ENG.put("december", "dec");
-            MONTHS_STANDARD_ENG.put("sept", "sep");
-            MONTHS_STANDARD_DEU = map();
-            MONTHS_STANDARD_DEU.put("jan", "jan");
-            MONTHS_STANDARD_DEU.put("feb", "feb");
-            MONTHS_STANDARD_DEU.put("apr", "apr");
-            MONTHS_STANDARD_DEU.put("aug", "aug");
-            MONTHS_STANDARD_DEU.put("sep", "sep");
-            MONTHS_STANDARD_DEU.put("okt", "oct");
-            MONTHS_STANDARD_DEU.put("nov", "nov");
-            MONTHS_STANDARD_DEU.put("dez", "dec");
-            MONTHS_STANDARD_DEU.put("januar", "jan");
-            MONTHS_STANDARD_DEU.put("februar", "feb");
-            MONTHS_STANDARD_DEU.put("märz", "mar");
-            MONTHS_STANDARD_DEU.put("april", "apr");
-            MONTHS_STANDARD_DEU.put("mai", "may");
-            MONTHS_STANDARD_DEU.put("juni", "jun");
-            MONTHS_STANDARD_DEU.put("juli", "jul");
-            MONTHS_STANDARD_DEU.put("august", "aug");
-            MONTHS_STANDARD_DEU.put("september", "sep");
-            MONTHS_STANDARD_DEU.put("oktober", "oct");
-            MONTHS_STANDARD_DEU.put("november", "nov");
-            MONTHS_STANDARD_DEU.put("dezember", "dec");
-        }
-    }
-
     public static class PageData {
         List<DisplayEvent> events;
         DisplayEvent mainpageEvent;
@@ -1249,7 +1187,7 @@ public class Util {
         public Map<K, ArrayList<T>> mapList;
 
         public MapList() {
-            this.mapList = map();
+            this.mapList = new HashMap<>();
         }
 
         public Set<K> keys() {

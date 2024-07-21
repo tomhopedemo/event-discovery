@@ -8,16 +8,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.events.Util.map;
 
 class DateTimeParse {
     static Map<Calendar.Date, Time> make(Document doc, Context ctx) {
         String identifier = ctx.linkxClass();
         Elements elements = doc.getElementsByClass(identifier);
-        Map<Calendar.Date, Time> dateTimes = Util.map();
+        Map<Calendar.Date, Time> dateTimes = new HashMap<>();
         for (Element element : elements) {
             Util.Multi<String, Util.MultiList<Integer, Element>> textHtml = Jutil.text(element);
             Util.StringMutable clean = new Util.StringMutable(Util.safeA(textHtml).toLowerCase());

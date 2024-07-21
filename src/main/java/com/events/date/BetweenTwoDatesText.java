@@ -7,13 +7,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import static com.events.HyphenMatchers.M_HYPHENS_TO_UNTIL;
-import static com.events.Util.Months.MONTHS_STANDARD_ENG;
+import static com.events.date.HyphenMatchers.M_HYPHENS_TO_UNTIL;
 import static com.events.Util.list;
 import static com.events.Util.set;
 import static com.events.date.M_Month.M_MONTHS_SPACE_BEFORE_AND_AFTER;
 import static com.events.date.M_Static.*;
 import static com.events.date.M_Weekday.M_WEEKDAYO_COMMA;
+import static com.events.date.Months.MONTHS_STANDARD_ENG;
 
 class BetweenTwoDatesText extends DateMatcher {
     final boolean allIndices;

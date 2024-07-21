@@ -2,15 +2,11 @@ package com.events;
 
 import com.events.date.Calendar;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static com.events.FiltersLists.*;
 import static com.events.date.M_Month.M_MONTH_ENG;
-import static com.events.Util.map;
 import static com.events.date.Weekdays.WEEKDAYS_LONG;
 import static com.events.date.Weekdays.WEEKDAYS_ORDER;
 
@@ -115,7 +111,7 @@ class Removals {
         String district = inputData.getDistrict(ref);
         if (!Util.empty(title)) {
             split = Util.split(title, " - ");
-            List<Integer> indexesToRemove = Util.list();
+            List<Integer> indexesToRemove = new ArrayList<>();
             for (int i = 0; i < split.size(); i++) {
                 String candidate = split.get(i);
                 candidate = candidate.toLowerCase().trim();
@@ -144,7 +140,7 @@ class Removals {
 
     static String characterEndRemovals(String fullTitle) {
         Util.NList split = Util.split(fullTitle, " - ");
-        List<String> newConstruct = Util.list();
+        List<String> newConstruct = new ArrayList<>();
         for (int j = 0; j < split.size(); j++) {
             String title = split.get(j);
             title = removeAngleBracketText(title);
@@ -209,7 +205,7 @@ class Removals {
 
     static void removePart(Util.StringMutable clean, Event event) {
         Util.NList split = Util.split(clean.string, " - ");
-        List<Integer> indicesToRemove = Util.list();
+        List<Integer> indicesToRemove = new ArrayList<>();
         for (int i = 0; i < split.size(); i++) {
             String s = split.get(i);
             for (String part : SINGLE_PARTS_TO_REMOVE) {
@@ -224,7 +220,7 @@ class Removals {
         clean.string = split.reconstructExcept(indicesToRemove);
         List<String> toAllow = Util.list("u2", "404");
         split = Util.split(clean.string, " - ");
-        List<Integer> indexesToRemove = Util.list();
+        List<Integer> indexesToRemove = new ArrayList<>();
         for (int i = 0; i < split.size(); i++) {
             String s = split.get(i);
             if (toAllow.contains(Util.lowercase(s))) continue;
@@ -252,7 +248,7 @@ class Removals {
 
     static void removeRepeatPart(Util.StringMutable clean) {
         Util.NList split = Util.split(clean.string, " - ");
-        List<Integer> indexesToRemove = Util.list();
+        List<Integer> indexesToRemove = new ArrayList<>();
         for (int i = 1; i < split.size(); i++) {
             if (split.get(i).trim().equalsIgnoreCase(split.get(i - 1).trim())) {
                 indexesToRemove.add(i);
@@ -342,7 +338,7 @@ class Removals {
     }
 
     static void removeFromEndsOfParts(Util.StringMutable clean, List<String> removals, int partminchars) {
-        Map<Integer, String> map = map();
+        Map<Integer, String> map = new HashMap<>();
         Util.NList split = Util.split(clean.string, " - ");
         for (int i = 0; i < split.size(); i++) {
             String s = split.get(i);

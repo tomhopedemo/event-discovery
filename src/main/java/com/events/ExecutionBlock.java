@@ -339,7 +339,7 @@ interface ExecutionBlock {
             List<String> staleRefsB3 = Stale.getUmmerged(b3, numDaysStale * 3, dirs);
             List<String> staleRefsB4 = Stale.getUmmerged(b4, numDaysStale * 4, dirs);
             List<String> staleRefsB6 = Stale.getUmmerged(b6, numDaysStale * 6, dirs);
-            List<String> toOutput = Util.list();
+            List<String> toOutput = new ArrayList<>();
             for (String ref : staleb) {
                 if (refsB6.contains(ref)) {
                     if (staleRefsB6.contains(ref)) {
@@ -365,7 +365,7 @@ interface ExecutionBlock {
         }
 
         static List<String> executeFestivalstale(List<String> allRefs, double numDaysInFuture, BaseDirs dirs, InputData inputData) {
-            List<String> stale = Util.list();
+            List<String> stale = new ArrayList<>();
             List<String> refs = inputData.getStatus().getFestivalStale(allRefs);
             for (String ref : refs) {
                 Context ctx = Context.make(ref, inputData);

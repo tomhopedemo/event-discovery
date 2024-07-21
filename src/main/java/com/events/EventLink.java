@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -169,7 +170,7 @@ public class EventLink {
         String linkclass = ctx.link1Class();         // ---------------------  COMBO MATCHING ON HTML ------------------------
         if (!empty(linkclass)) {
             Elements elements = doc.getElementsByClass(linkclass);
-            Map<Calendar.Date, Time> dateTimes = map();
+            Map<Calendar.Date, Time> dateTimes = new HashMap<>();
             for (Element element : elements) {
                 String textE = safeA(Jutil.text(element));
                 Time timeIndicative = TimeMatcher.match(new Util.StringMutable(lowercase(textE)), ctx.lang, ctx.time);
@@ -192,7 +193,7 @@ public class EventLink {
     }
 
     static Map<Calendar.Date, Time> pageTime(Context ctx, List<Calendar.Date> dates, String pageText) {
-        Map<Calendar.Date, Time> dateTimes = map();
+        Map<Calendar.Date, Time> dateTimes = new HashMap<>();
         if (empty(dates)) return dateTimes;
         List<Integer> avoidIndicesDirectional = indices(pageText, LINK_TIME_AVOID_PHRASES_DIRECTIONAL);
         List<Integer> avoidIndicesNonDirectional = indices(pageText, LINK_TIME_AVOID_PHRASES_NON_DIRECTIONAL);
@@ -227,7 +228,7 @@ public class EventLink {
     static Map<Calendar.Date, Time> comboMatch(List<Calendar.Date> dates, String pageText, Context ctx) {
         if (empty(dates) && !ctx.parseBlank()) return null; // ----------- original combo match
         Util.MultiList<Calendar.Date, Time> rawDateTimes = DateTimeMatcher.match(pageText, ctx.time, ctx.datetime);
-        Map<Calendar.Date, Time> dateTimes = map();
+        Map<Calendar.Date, Time> dateTimes = new HashMap<>();
         if (!empty(rawDateTimes)) {
             if (ctx.parseBlank()) {
                 for (Util.Multi<Calendar.Date, Time> multi : rawDateTimes.underlying) {

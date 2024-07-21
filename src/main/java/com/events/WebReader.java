@@ -24,11 +24,6 @@ import java.util.concurrent.TimeUnit;
 import static com.events.Util.*;
 
 class WebReader {
-    static final String DELIMITER = "#ARCTA#";
-
-    interface BooleanMutable {
-        boolean check();
-    }
 
     final static List<String> failedSimpleUrlCalls = list();
     static boolean DISABLE_READ_CACHE = false, DISABLE_WRITE_CACHE = false, DISABLE_MEMORY_CACHES = true;
@@ -63,12 +58,12 @@ class WebReader {
     static Map<String, String> MEMORY_REDIRECTION_SIMPLE = null;
     static Map<String, String> MEMORY_REDIRECTION_CURL = null;
     static boolean OUTPUT_THROTTLES = true, OUTPUT_CACHE_LOCATIONS = false;
-    static Map<String, Util.Multi3<Document, String, String>> MEMORY_CACHE_SIMPLE = map(), MEMORY_CACHE_CURL = map();
+    static Map<String, Util.Multi3<Document, String, String>> MEMORY_CACHE_SIMPLE = new HashMap<>(), MEMORY_CACHE_CURL = new HashMap<>();
     static String PHANTOM_JAVASCRIPT = "phantom.js", PHANTOM_JAVASCRIPT_DELAY = "phantomDelay.js";
     static String PHANTOM_JAVASCRIPT_SCROLL = "phantomScroll.js", PHANTOM_JAVASCRIPT_CLICK_WAIT = "phantomClick.js";
     static String PHANTOM_EXECUTABLE = "phantomjs";
     static long THROTTLE_LAST_NULL_HOST = 0L;
-    static Map<String, Long> THROTTLE_LAST_MAP = Util.map();
+    static Map<String, Long> THROTTLE_LAST_MAP = new HashMap<>();
     static long THROTTLE_VALUE = 1000L;
 
     static class Advanced {
@@ -387,6 +382,12 @@ class WebReader {
         return MEMORY_URL_FILE_SIMPLE_READ.get(url);
     }
 
+    static final String DELIMITER = "#ARCTA#";
+
+    interface BooleanMutable {
+        boolean check();
+    }
+
     static void loadCaches() {
         cachedLocationCurl("");
         cachedLocation("");
@@ -667,7 +668,7 @@ class WebReader {
 
     static class UriExtension {
         static List<String> specialUrls = list();
-        static Map<String, String> urlHost = map();
+        static Map<String, String> urlHost = new HashMap<>();
         static boolean indexHtmlCheck = false;
 
         static String toFullUrl(String baseUrl, String uri) {

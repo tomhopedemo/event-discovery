@@ -3,8 +3,8 @@ package com.events.date;
 import com.events.Util;
 
 import static com.events.date.M_Static.order;
-import static com.events.Util.Months.MONTHS_STANDARD_DEU;
-import static com.events.Util.Months.MONTHS_STANDARD_ENG;
+import static com.events.date.Months.MONTHS_STANDARD_DEU;
+import static com.events.date.Months.MONTHS_STANDARD_ENG;
 
 public class M_Month {
     public static final String M_MONTH_ENG;

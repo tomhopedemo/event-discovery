@@ -1,9 +1,9 @@
 package com.events;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.events.ExecutionBlock.*;
-import static com.events.Util.map;
 
 class Manual {
     static String city = "london";
@@ -12,7 +12,7 @@ class Manual {
     static Map<String, ExecutionBlock> blocks = createExecutionBlocks();
 
     static Map<String, ExecutionBlock> createExecutionBlocks() {
-        Map<String, ExecutionBlock> blocks = map();
+        Map<String, ExecutionBlock> blocks = new HashMap<>();
         blocks.put("a", new ManualAllBlock(ref));
         blocks.put("out", new OutputBlock(ref));
         blocks.put("html", new HtmlBlock());

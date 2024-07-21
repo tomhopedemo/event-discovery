@@ -3,6 +3,7 @@ package com.events.date;
 import com.events.Context;
 import com.events.Util;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -168,7 +169,7 @@ public abstract class TimeMatcher {
                 no_index_overlap.add(i);
             }
         }
-        List<Time> to_return = Util.list();
+        List<Time> to_return = new ArrayList<>();
         for (Integer index : no_index_overlap) {
             to_return.add(times.get(index));
         }
@@ -181,7 +182,7 @@ public abstract class TimeMatcher {
     }
 
     static List<Time> matchDoublePrioritized(String text, Context.LanguageContext langCtx, Context.TimeContext timeCtx) {
-        List<Time> times = Util.list();
+        List<Time> times = new ArrayList<>();
         for (TimeMatcher matcher : matchers(langCtx, timeCtx)) {
             List<Time> match = matcher.match(new Util.StringMutable(text));
             Util.safeAdd(times, match);
@@ -194,14 +195,14 @@ public abstract class TimeMatcher {
     }
 
     static List<Time> matchDouble(Util.StringMutable clean, Context.LanguageContext langCtx, Context.TimeContext timeCtx) {
-        List<Time> times = Util.list();
+        List<Time> times = new ArrayList<>();
         List<TimeMatcher> matchers = matchersDouble(langCtx, timeCtx);
         matchers.forEach(m -> Util.safeAdd(times, m.match(clean)));
         return times;
     }
 
     public static List<Time> matchSingle(Util.StringMutable clean, Context.LanguageContext langCtx, Context.TimeContext timeCtx) {
-        List<Time> times = Util.list();
+        List<Time> times = new ArrayList<>();
         for (TimeMatcher matcher : matchersSingle(langCtx, timeCtx)) {
             List<Time> time_indicative = matcher.match(clean);
             if (Util.empty(time_indicative)) continue;

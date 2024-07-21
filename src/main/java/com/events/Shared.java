@@ -3,6 +3,7 @@ package com.events;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class Shared {
@@ -65,7 +66,7 @@ class Shared {
         } else if ("CLASSHOLD".equals(identifierType)) {
             elements = getElementsClasshold(identifier, doc);
         } else if ("CLASSHOLDID".equals(identifierType)) {
-            elements = Util.list();
+            elements = new ArrayList<>();
             elements.addAll(doc.getElementById(identifier).children());
         } else {
             elements = getElementsByClass(ctx, identifier, doc);
@@ -91,13 +92,13 @@ class Shared {
         if (doc != null) {
             elements = Jutil.getElementsByClassFallback(doc, identifier);
         } else {
-            elements = Util.list();
+            elements = new ArrayList<>();
         }
         return elements;
     }
 
     static List<Element> getElementsClasshold(String identifier, Element doc) {
-        List<Element> elements = Util.list();
+        List<Element> elements = new ArrayList<>();
         for (Element parent : doc.getElementsByClass(identifier)) {
             Util.addAll(elements, parent.children());
         }

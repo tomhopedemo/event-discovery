@@ -9,6 +9,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.events.Primary.REF_EVENTS;
@@ -211,7 +213,7 @@ class ClassParser {
     }
 
     static List<Element> timesplitElements(Context ctx, Element parent) {
-        List<Element> timeSplitChildren = list();
+        List<Element> timeSplitChildren = new ArrayList<>();
         for (Element child : parent.children()) {
             String text = child.text();
             if (empty(text)) continue;
@@ -270,7 +272,7 @@ class ClassParser {
         } else if (time == null && link != null && !ctx.parseNolink()) {
             event.dateTimes = EventLink.make(link, ctx, dates, dirs.getBaseDirs());
         }
-        if (event.dateTimes == null) event.dateTimes = map();
+        if (event.dateTimes == null) event.dateTimes = new HashMap<>();
         if (empty(event.dateTimes) && !empty(ctx.timeManual())) {
             Time timeManual = TimeMatcher.matchSingle(lowercase(ctx.timeManual()), false, ctx.lang, ctx.time);
             for (Date date : dates) {
@@ -278,7 +280,7 @@ class ClassParser {
             }
         }
         if (empty(event.dateTimes) && time != null) {
-            if (event.dateTimes == null) event.dateTimes = map();
+            if (event.dateTimes == null) event.dateTimes = new HashMap<>();
             for (Date date : safeNull(dates)) {
                 if (date == null) continue;
                 event.dateTimes.put(date, time);
@@ -286,7 +288,7 @@ class ClassParser {
         }
         if (empty(event.dateTimes) && time == null && size(dates) == 1) {
             if (event.name.toLowerCase().contains("a day of ")) {
-                event.dateTimes = map();
+                event.dateTimes = new HashMap<>();
                 event.dateTimes.put(dates.get(0), Time.getStartDayTime());
             }
         }
