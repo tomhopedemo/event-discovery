@@ -625,7 +625,8 @@ class WebReader {
                 Util.Multi<Document, String> documentLocation = WebReader.phantomjs(url, dirs.getPhantomDir(), delay);
                 multi = new Util.Multi3<>(Util.Multi.safeA(documentLocation), url, Util.Multi.safeB(documentLocation));
             } else if (ctx.downloadGoogle()) {
-                Util.Multi<Document, String> docLocation = googleChrome(url, dirs.getGoogleScript());
+                String googleScript = dirs.getGoogleScript(ctx);
+                Util.Multi<Document, String> docLocation = googleChrome(url, googleScript);
                 multi = new Util.Multi3<>(Util.Multi.safeA(docLocation), url, Util.Multi.safeB(docLocation));
             } else {
                 Util.Multi3<String, String, String> webmulti = headless(url, clickElement, delay); //delay
@@ -655,8 +656,8 @@ class WebReader {
             return new Util.Multi<>(Util.Multi.safeA(documentLocation), Util.Multi.safeB(documentLocation));
         }
 
-        static Util.Multi<Document, String> googlechrome(String link, BaseDirs dirs) {
-            Util.Multi<Document, String> documentLocation = googleChrome(link, dirs.getGoogleScript());
+        static Util.Multi<Document, String> googlechrome(String link, BaseDirs dirs, Context ctx) {
+            Util.Multi<Document, String> documentLocation = googleChrome(link, dirs.getGoogleScript(ctx));
             return new Util.Multi<>(Util.Multi.safeA(documentLocation), Util.Multi.safeB(documentLocation));
         }
 

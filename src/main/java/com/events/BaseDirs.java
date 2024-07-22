@@ -37,12 +37,9 @@ class BaseDirs {
         }
     }
 
-    String getGoogleScript() {
-        if (LOCAL.equals(type)) {
-            return getRoot() + "googlechrome" + "/" + "headless.sh";
-        } else {
-            return "/usr/lib/googlechrome/headless.sh";
-        }
+    String getGoogleScript(Context ctx) {
+        String root = LOCAL.equals(type) ? getRoot() : "/usr/lib/";
+        return root + "googlechrome/" + (ctx.quickGoogle() ? "headlessQuick.sh" : "headless.sh");
     }
 
     String getWebcacheDir() {

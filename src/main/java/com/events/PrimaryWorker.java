@@ -33,7 +33,7 @@ class PrimaryWorker {
                     doc = WebReader.Download.phantomjs(urlIframe, ctx, dirs.getBaseDirs(), true).a;
                     redirectedUrl = urlIframe;
                 } else if (ctx.primaryIframeGoogle()) {
-                    doc = WebReader.Download.googlechrome(urlIframe, dirs.getBaseDirs()).a;
+                    doc = WebReader.Download.googlechrome(urlIframe, dirs.getBaseDirs(), ctx).a;
                     redirectedUrl = urlIframe;
                 } else {
                     multiIframe = WebReader.readParse(urlIframe);

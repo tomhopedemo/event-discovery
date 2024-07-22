@@ -29,7 +29,7 @@ public class EventLink {
             Util.Multi<Document, String> documentLocation = WebReader.Download.phantomjs(link, ctx, dirs, ctx.downloadDelay());
             doc = safeA(documentLocation);
         } else if (ctx.link1Google()) {
-            Util.Multi<Document, String> documentLocation = WebReader.Download.googlechrome(link, dirs);
+            Util.Multi<Document, String> documentLocation = WebReader.Download.googlechrome(link, dirs, ctx);
             doc = safeA(documentLocation);
         } else {
             Util.Multi3 multi = WebReader.readParse(link);

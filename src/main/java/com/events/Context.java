@@ -86,6 +86,10 @@ public class Context {
         return GOOGLE_OVERRIDE || interpret.contains("_GOOGLE_");
     }
 
+    boolean quickGoogle(){
+        return interpret.contains("_QUICK_");
+    }
+
     boolean downloadDelay() {
         return interpret.contains("_DELAY_");
     }
