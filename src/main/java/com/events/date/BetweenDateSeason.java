@@ -1,5 +1,6 @@
 package com.events.date;
 
+import com.events.DateMatcher;
 import com.events.Util;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import static com.events.date.HyphenMatchers.M_HYPHENS;
 import static com.events.date.M_Static.*;
 import static com.events.date.Months.MONTHS_STANDARD_ENG;
 
-class BetweenDateSeason extends DateMatcher {
+public class BetweenDateSeason extends DateMatcher {
     public DateMeta matchInternal(String text) {
         String regex = M_DAY_MONTH_YEAR + " " + M_HYPHENS + " " + M_SEASON + " " + M_YEAR;
         Matcher matcher = DateUtils.matcher(regex, text);

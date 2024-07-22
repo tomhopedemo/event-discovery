@@ -8,7 +8,7 @@ import com.events.date.TimeMatcher;
 import java.util.List;
 import java.util.UUID;
 
-import static com.events.date.DateMatcher.cleanDates;
+import static com.events.DateMatcher.cleanDates;
 import static com.events.date.TimeMatcher.cleanTimes;
 import static com.events.Util.list;
 import static com.events.Util.sout;

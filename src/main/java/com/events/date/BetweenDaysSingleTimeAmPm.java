@@ -1,6 +1,6 @@
 package com.events.date;
 
-import com.events.Util;
+import com.events.DateMatcher;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +18,8 @@ import static com.events.date.Weekdays.WEEKDAYS_STANDARD_ENG;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.valueOf;
 
-class BetweenDaysSingleTimeAmPm extends DateMatcher.DayTimeMatcher {
-    Map<String, Time> match(String text) {
+public class BetweenDaysSingleTimeAmPm extends DateMatcher.DayTimeMatcher {
+    public Map<String, Time> match(String text) {
         Map<String, Time> weekdayTimes = new HashMap<>();
         String day_day_time = M_WEEKDAY_ENG + SPACESO + M_HYPHENS_TO + SPACESO + M_WEEKDAY_ENG + "[,]?" + SPACES + "(eves|at)?" + SPACESO + "([0-9]{1,2})(am|pm)";
         Matcher matcher = matcher(day_day_time, text);

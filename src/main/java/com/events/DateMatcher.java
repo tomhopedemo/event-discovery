@@ -1,11 +1,11 @@
-package com.events.date;
+package com.events;
 
-import com.events.*;
+import com.events.date.*;
 
 import java.util.*;
 import java.util.regex.Matcher;
 
-import static com.events.date.DateMatcher.MatcherLists.*;
+import static com.events.DateMatcher.MatcherLists.*;
 import static com.events.Util.Lang.ENG;
 import static com.events.Util.*;
 import static com.events.date.DateTimeUtils.removeIndexPairs;
@@ -291,16 +291,16 @@ public abstract class DateMatcher {
         return matchers;
     }
 
-    static void getIndexPairs(String text, DateMeta meta, Matcher matcher) {
+    public static void getIndexPairs(String text, DateMeta meta, Matcher matcher) {
         getIndexPairs(text, meta, matcher.start(), matcher.end());
     }
 
-    static void getIndexPairs(String text, DateMeta dateMeta, Integer startIndex, Integer endIndex) {
+    public static void getIndexPairs(String text, DateMeta dateMeta, Integer startIndex, Integer endIndex) {
         dateMeta.indexPairsInclExcl.add(new Util.Multi<>(startIndex, endIndex));
         addProximalDateIndex(text, dateMeta, startIndex);
     }
 
-    static String cleanText(String text) {
+    public static String cleanText(String text) {
         return text.replaceAll("\u2021", " ").replaceAll("\u00A0", " ");
     }
 
@@ -368,7 +368,7 @@ public abstract class DateMatcher {
     }
 
     public abstract static class DayTimeMatcher {
-        abstract Map<String, Time> match(String text);
+        public abstract Map<String, Time> match(String text);
 
         public static Map<String, Time> matchWeekdayTime(String text) {
             HashMap<String, Time> map = new HashMap<>();
@@ -379,7 +379,7 @@ public abstract class DateMatcher {
             return map;
         }
 
-        static List<Integer> weekdayBetweenIndices(String weekdayOne, String weekdayTwo) {
+        public static List<Integer> weekdayBetweenIndices(String weekdayOne, String weekdayTwo) {
             List<Integer> weekdayIndices;
             if (WEEKDAYS_ORDER.indexOf(weekdayOne) < 0 || WEEKDAYS_ORDER.indexOf(weekdayTwo) < 0) return null;
             if (WEEKDAYS_ORDER.indexOf(weekdayTwo) >= WEEKDAYS_ORDER.indexOf(weekdayOne)) {

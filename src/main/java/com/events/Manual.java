@@ -7,8 +7,8 @@ import static com.events.ExecutionBlock.*;
 
 class Manual {
     static String city = "london";
-    static String ref = "Ronnie Scotts";
-    static String executionBlock = "a";
+    static String ref = "Strongroom Bar";
+    static String executionBlock = "out";
     static Map<String, ExecutionBlock> blocks = createExecutionBlocks();
 
     static Map<String, ExecutionBlock> createExecutionBlocks() {
@@ -21,6 +21,7 @@ class Manual {
     }
 
     public static void main(String[] args) {
+        Context.GOOGLE_OVERRIDE = true;
         BaseDirs baseDirs = new BaseDirs(Util.EnvType.LOCAL);
         WebReader.setCaches(baseDirs.getWebcacheDir(), "/");
         Local.setLocalWebParameters();

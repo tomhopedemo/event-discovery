@@ -1,5 +1,6 @@
 package com.events.date;
 
+import com.events.DateMatcher;
 import com.events.Util;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import static com.events.date.M_Weekday.M_WEEKDAYO_SPACE_AFTER_ENG;
 import static com.events.date.Months.MONTHS_STANDARD_ENG;
 import static com.events.Util.set;
 
-class UntilDate extends DateMatcher {
+public class UntilDate extends DateMatcher {
     public DateMeta matchInternal(String text) {
         Set<List<Calendar.Date>> between_set = set();
         Matcher matcher = Util.matcher("(on now )?until" + SPACES + M_WEEKDAYO_SPACE_AFTER_ENG + M_DAY_MONTH_YEARO, text);

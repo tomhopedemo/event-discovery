@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.events.date.DateMatcher.constructIntermediateDates;
+import static com.events.DateMatcher.constructIntermediateDates;
 import static com.events.date.M_Static.*;
 import static com.events.Util.*;
 import static com.events.date.Weekdays.WEEKDAYS_LONG;

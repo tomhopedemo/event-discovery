@@ -1,5 +1,6 @@
 package com.events.date;
 
+import com.events.DateMatcher;
 import com.events.Util;
 
 import java.util.regex.Matcher;
@@ -8,10 +9,10 @@ import static com.events.date.M_Lang.LANG_M_WEEKDAY;
 import static com.events.date.M_Lang.LANG_WEEKDAYS_STANDARD;
 import static com.events.date.M_Static.M_DAY;
 
-class DayWeekday extends DateMatcher {
+public class DayWeekday extends DateMatcher {
     Util.Lang language;
 
-    DayWeekday(Util.Lang language) {
+    public DayWeekday(Util.Lang language) {
         this.language = language;
     }
 

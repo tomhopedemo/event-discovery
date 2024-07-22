@@ -10,8 +10,8 @@ import java.util.Set;
 import static com.events.Util.list;
 import static com.events.Util.set;
 
-class DateTimeUtils {
-    static void removeIndexPairs(Util.StringMutable clean, Util.MultiList<Integer, Integer> indexPairsToRemove) {
+public class DateTimeUtils {
+    public static void removeIndexPairs(Util.StringMutable clean, Util.MultiList<Integer, Integer> indexPairsToRemove) {
         List<Integer> gapCharacters = list();
         List<Integer> filteredIndices = Util.integerList(clean.string.length());
         Set<Integer> indicesToExcludeSet = set();

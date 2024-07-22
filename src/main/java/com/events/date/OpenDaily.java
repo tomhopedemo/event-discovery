@@ -1,10 +1,11 @@
 package com.events.date;
 
+import com.events.DateMatcher;
 import com.events.Util;
 
 import java.util.List;
 
-class OpenDaily extends DateMatcher {
+public class OpenDaily extends DateMatcher {
     public DateMeta matchInternal(String text) {
         String regex = "open daily";
         if (!text.contains(regex)) return null;

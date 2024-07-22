@@ -1,9 +1,7 @@
 package com.events.date;
 
 import com.events.Util;
-import com.events.date.Calendar;
-import com.events.date.DateMatcher;
-import com.events.date.DateMeta;
+import com.events.DateMatcher;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -14,7 +12,7 @@ import static com.events.date.M_Weekday.M_WEEKDAYO_ENG;
 import static com.events.date.Months.MONTHS_STANDARD_ENG;
 import static com.events.Util.list;
 
-class SingleDateReverse extends DateMatcher {
+public class SingleDateReverse extends DateMatcher {
     public DateMeta matchInternal(String text) {
         List<Calendar.Date> dates = list();//may 21st 2018 may 21 18:00 okay fine, but may 18:00 - cannot end with colon
         text = cleanText(text);

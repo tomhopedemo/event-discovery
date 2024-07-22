@@ -1,14 +1,15 @@
 package com.events.date;
 
+import com.events.DateMatcher;
 import com.events.Util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 
 import static com.events.date.HyphenMatchers.M_HYPHENS_TO;
-import static com.events.Util.set;
 import static com.events.date.M_Month.M_MONTH_ENG;
 import static com.events.date.M_Static.NEGATIVE_LOOKAHEAD_DIGITS;
 import static com.events.date.M_Weekday.M_WEEKDAYO_ENG;
@@ -16,10 +17,10 @@ import static com.events.date.M_Static.M_DAY_ORDINALO;
 import static com.events.date.M_Static.M_DAY;
 import static com.events.date.Months.MONTHS_STANDARD_ENG;
 
-class BetweenTwoDatesTextReverseStrong extends DateMatcher {
+public class BetweenTwoDatesTextReverseStrong extends DateMatcher {
     public DateMeta matchInternal(String text) {         //may 21 - jun 12 18:00 okay, but may 18 - jun 13:00 - cannot end with colon or other digits
         String day_month_year = M_WEEKDAYO_ENG + "[,]?[ ]?" + M_MONTH_ENG + " " + M_DAY_ORDINALO + "[ |\u00A0|\\.|,]" + M_HYPHENS_TO + "\\s*" + M_MONTH_ENG + " " + M_DAY + NEGATIVE_LOOKAHEAD_DIGITS;
-        Set<List<Calendar.Date>> betweenSet = set();
+        Set<List<Calendar.Date>> betweenSet = new HashSet<>();
         DateMeta meta = new DateMeta();
         Matcher matcher = Util.matcher(day_month_year, text);
         while (matcher.find()) {

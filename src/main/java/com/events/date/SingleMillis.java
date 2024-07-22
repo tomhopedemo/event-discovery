@@ -1,9 +1,7 @@
 package com.events.date;
 
 import com.events.Util;
-import com.events.date.Calendar;
-import com.events.date.DateMatcher;
-import com.events.date.DateMeta;
+import com.events.DateMatcher;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -13,7 +11,7 @@ import java.util.regex.Pattern;
 import static com.events.date.M_Static.MONTHS_ORDER;
 import static com.events.Util.set;
 
-class SingleMillis extends DateMatcher {
+public class SingleMillis extends DateMatcher {
     public DateMeta matchInternal(String text) {
         String string_date;
         Pattern pattern = Pattern.compile("(15[0-9]{8})([0-9]{3})?");

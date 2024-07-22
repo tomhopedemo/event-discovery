@@ -1,24 +1,25 @@
 package com.events.date;
 
+import com.events.DateMatcher;
 import com.events.Util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 
 import static com.events.date.HyphenMatchers.M_HYPHENS_TO;
-import static com.events.Util.set;
 import static com.events.date.M_Month.M_MONTH_ENG;
 import static com.events.date.M_Static.M_DAY_ORDINALO;
 import static com.events.date.M_Static.M_YEAR_STRONG;
 import static com.events.date.M_Weekday.M_WEEKDAYO_ENG;
 import static com.events.date.Months.MONTHS_STANDARD_ENG;
 
-class BetweenTwoDatesTextReverse extends DateMatcher { // ------------ (1.REVERSE) month date
+public class BetweenTwoDatesTextReverse extends DateMatcher { // ------------ (1.REVERSE) month date
     public DateMeta matchInternal(String text) {         //may 21st 2018 may 21 18:00 okay fine, but may 18:00 - cannot end with colon
         String dayMonthYear = M_WEEKDAYO_ENG + "[,]?[ ]?" + M_MONTH_ENG + " " + M_DAY_ORDINALO + "[ |\u00A0|\\.|,]" + M_HYPHENS_TO + "[ ]?" + M_DAY_ORDINALO + "[ ]?" + M_YEAR_STRONG + "(?!:)";
-        Set<List<Calendar.Date>> betweenSet = set();
+        Set<List<Calendar.Date>> betweenSet = new HashSet<>();
         DateMeta meta = new DateMeta();
         Matcher matcher = Util.matcher(dayMonthYear, text);
         while (matcher.find()) {

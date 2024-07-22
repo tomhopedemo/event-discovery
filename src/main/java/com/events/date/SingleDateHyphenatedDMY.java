@@ -1,5 +1,6 @@
 package com.events.date;
 
+import com.events.DateMatcher;
 import com.events.Util;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import static com.events.date.M_Static.MONTHS_ORDER;
 import static com.events.date.M_Static.M_YEAR;
 import static com.events.Util.list;
 
-class SingleDateHyphenatedDMY extends DateMatcher {
+public class SingleDateHyphenatedDMY extends DateMatcher {
     public DateMeta matchInternal(String text) {
         List<Calendar.Date> dates = list();
         String regex = "([0-9]{2})" + M_HYPHENS_UNDERSCORES_DOTS + "([0-9]{2})" + "\\2" + M_YEAR;

@@ -123,7 +123,7 @@ public class Calendar {
         date.dayOfWeek = element.dayOfWeek;
     }
 
-    static String getDayOfWeek(Date date) {
+    public static String getDayOfWeek(Date date) {
         CalendarDate element = Util.getElement(DAY_CALENDAR, date.toCalendarDate());
         if (element == null) return null;
         return element.dayOfWeek;
@@ -250,7 +250,7 @@ public class Calendar {
             return diff(indices.get(0), indices.get(indices.size() - 1));
         }
 
-        Date cloneMe() {
+        public Date cloneMe() {
             Date date = new Date(this.dateDay, this.dateMonth, this.dateYear);
             date.dayOfWeek = this.dayOfWeek;
             return date;
@@ -303,7 +303,7 @@ public class Calendar {
             return strictlyBefore.compareTo(strictlyAfter) == -1;
         }        //means after is properly after before
 
-        static boolean beforeAfterCheck(Date before, Date after) {
+        public static boolean beforeAfterCheck(Date before, Date after) {
             return before.compareTo(after) <= 0;
         }
 

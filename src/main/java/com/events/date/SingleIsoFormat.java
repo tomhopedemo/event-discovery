@@ -1,14 +1,12 @@
 package com.events.date;
 
-import com.events.date.Calendar;
-import com.events.date.DateMatcher;
-import com.events.date.DateMeta;
+import com.events.DateMatcher;
 
 import java.time.Instant;
 
 import static com.events.date.M_Static.MONTHS_ORDER;
 
-class SingleIsoFormat extends DateMatcher {
+public class SingleIsoFormat extends DateMatcher {
     public DateMeta matchInternal(String text) {
         Instant instant = null;
         try {

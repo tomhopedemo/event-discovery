@@ -1,6 +1,5 @@
 package com.events;
 
-import com.events.date.DateMatcher;
 import com.events.date.DateTimeMatcher;
 import com.events.date.Time;
 

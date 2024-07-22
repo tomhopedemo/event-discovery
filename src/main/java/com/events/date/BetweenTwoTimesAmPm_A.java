@@ -2,18 +2,18 @@ package com.events.date;
 
 import com.events.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
 import static com.events.date.HyphenMatchers.M_HYPHENS_TO_UNTIL;
-import static com.events.Util.list;
 
 class BetweenTwoTimesAmPm_A extends TimeMatcher {
     BetweenTwoTimesAmPm_A() {
     }
 
     List<Time> match(Util.StringMutable clean) {
-        List<Time> to_return = list();
+        List<Time> to_return = new ArrayList<>();
         String text = clean.string;
         if (Util.empty(text)) return null;
         String matchedString = "(time|between)?" + "[:]?(^|\\s*|\\()" + "([0-9]{1,2})([:|\\.][0-9][0|5])?" + "[ ]?(am|pm|noon)" + "[\\)]?\\s*" + M_HYPHENS_TO_UNTIL + "\\s*[\\(]?" + "([0-9]{1,2})([:|\\.][0-9][0|5|9])?" + "(\\s*am|\\s*pm|\\s*noon)?";

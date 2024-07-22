@@ -1,9 +1,7 @@
 package com.events.date;
 
 import com.events.Util;
-import com.events.date.Calendar;
-import com.events.date.DateMatcher;
-import com.events.date.DateMeta;
+import com.events.DateMatcher;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -11,7 +9,7 @@ import java.util.regex.Matcher;
 import static com.events.date.M_Static.*;
 import static com.events.Util.list;
 
-class SingleDateSlashDot extends DateMatcher {
+public class SingleDateSlashDot extends DateMatcher {
     public DateMeta matchInternal(String text) {
         List<Calendar.Date> dates = list();
         String regex = NEGATIVE_LOOKBEHIND_DIGITS + "(0|1|2|3)?([0-9])" + MWO + "(/|\\.)" + MWO + "(0|1)?([0-9])" + MWO + "\\3" + MWO + "(20)?(2[4-9])";

@@ -1,5 +1,6 @@
 package com.events.date;
 
+import com.events.DateMatcher;
 import com.events.Util;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import static com.events.Util.set;
 import static com.events.date.M_Static.M_DAY_MONTH_YEARO;
 import static com.events.date.M_Weekday.M_WEEKDAYO_SPACE_AFTER_ENG;
 
-class FromDate extends DateMatcher {
+public class FromDate extends DateMatcher {
     public DateMeta matchInternal(String text) {
         String regex = "from " + M_WEEKDAYO_SPACE_AFTER_ENG + M_DAY_MONTH_YEARO;
         Matcher matcher = Util.matcher(regex, text);

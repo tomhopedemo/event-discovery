@@ -1,5 +1,6 @@
 package com.events.date;
 
+import com.events.DateMatcher;
 import com.events.Util;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import static com.events.date.M_Weekday.M_WEEKDAYO_ENG;
 import static com.events.date.Months.MONTHS_STANDARD_ENG;
 import static com.events.Util.set;
 
-class TwoDates extends DateMatcher {
+public class TwoDates extends DateMatcher {
     public DateMeta matchInternal(String text) {
         Set<List<Calendar.Date>> betweenSet = set();
         String regex = NEGATIVE_LOOKBEHIND_DIGITS + M_WEEKDAYO_ENG + MWO + M_DAY_ORDINALO + SPACES + "&" + SPACES + M_WEEKDAYO_ENG + MWO + M_DAY_MONTH_YEARO;

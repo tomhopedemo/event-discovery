@@ -561,8 +561,11 @@ class WebReader {
                 if (!Util.empty(arg3)) {
                     list.add(arg3);
                 }
-                process = new ProcessBuilder(list).start();
-                process.waitFor(15, TimeUnit.SECONDS);
+                process = new ProcessBuilder(list)
+                        .directory(new File("/Users/tom/phantomjs/bin"))
+                        .inheritIO()
+                        .start();
+                process.waitFor(30, TimeUnit.SECONDS);
             } catch (Exception ignored) {
             } finally {
                 if (process != null) {
@@ -584,8 +587,10 @@ class WebReader {
 
         public void run() {
             try {
-                process = new ProcessBuilder(list(googleHeadless, url, GOOGLE_TEMP)).start();
-                process.waitFor(15, TimeUnit.SECONDS);
+                process = new ProcessBuilder(list(googleHeadless, url, GOOGLE_TEMP))
+                        .inheritIO()
+                        .start();
+                process.waitFor(30, TimeUnit.SECONDS);
             } catch (Exception ignored) {
             } finally {
                 if (process != null) {

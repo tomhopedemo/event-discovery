@@ -1,5 +1,6 @@
 package com.events.date;
 
+import com.events.DateMatcher;
 import com.events.Util;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import static com.events.date.M_Static.M_YEAR_STRONG;
 import static com.events.date.M_Static.SPACES;
 import static com.events.date.Months.MONTHS_STANDARD_ENG;
 
-class MonthYear extends DateMatcher {
+public class MonthYear extends DateMatcher {
     public DateMeta matchInternal(String text) {
         String regex = M_MONTH_ENG + SPACES + M_YEAR_STRONG;
         Matcher matcher = Util.matcher(regex, text);

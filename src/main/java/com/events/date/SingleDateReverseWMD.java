@@ -1,9 +1,7 @@
 package com.events.date;
 
 import com.events.Util;
-import com.events.date.Calendar;
-import com.events.date.DateMatcher;
-import com.events.date.DateMeta;
+import com.events.DateMatcher;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,7 +14,7 @@ import static com.events.date.M_Weekday.M_WEEKDAY_ENG;
 import static com.events.date.Months.MONTHS_STANDARD_ENG;
 import static com.events.Util.list;
 
-class SingleDateReverseWMD extends DateMatcher {
+public class SingleDateReverseWMD extends DateMatcher {
     public DateMeta matchInternal(String text) {
         List<Calendar.Date> dates = list();
         text = cleanText(text);

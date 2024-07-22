@@ -1,28 +1,28 @@
 package com.events.date;
 
+import com.events.DateMatcher;
 import com.events.Util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 
 import static com.events.date.HyphenMatchers.M_HYPHENS_TO_UNTIL;
-import static com.events.Util.list;
-import static com.events.Util.set;
 import static com.events.date.M_Month.M_MONTHS_SPACE_BEFORE_AND_AFTER;
 import static com.events.date.M_Static.*;
 import static com.events.date.M_Weekday.M_WEEKDAYO_COMMA;
 import static com.events.date.Months.MONTHS_STANDARD_ENG;
 
-class BetweenTwoDatesText extends DateMatcher {
+public class BetweenTwoDatesText extends DateMatcher {
     final boolean allIndices;
 
-    BetweenTwoDatesText() {
+    public BetweenTwoDatesText() {
         this(false);
     }
 
-    BetweenTwoDatesText(boolean allIndices) {
+    public BetweenTwoDatesText(boolean allIndices) {
         this.allIndices = allIndices;
     }
 
@@ -31,7 +31,7 @@ class BetweenTwoDatesText extends DateMatcher {
         Matcher matcherPrecheck = Util.matcher(M_WEEKDAYO_COMMA + MWO + M_DAY_MONTHO_YEARO + "[\\.|,]?" + SPACESO + timeO + SPACESO + M_HYPHENS_TO_UNTIL + MWO + M_WEEKDAYO_COMMA + MWO2 + M_DAY_MONTH_YEARO, text);
         if (!matcherPrecheck.find()) return null;
         String regex = "(?<!" + M_MONTHS_SPACE_BEFORE_AND_AFTER + "| vol )" + "(from |dates: )?" + M_WEEKDAYO_COMMA + MWO + NEGATIVE_LOOKBEHIND_DIGITS + M_DAY_MONTHO_YEARO + "[\\.|,]?" + SPACESO + timeO + SPACESO + M_HYPHENS_TO_UNTIL + MWO + M_WEEKDAYO_COMMA + MWO2 + M_DAY_MONTH_YEARO;
-        Collection<List<Calendar.Date>> betweenSet = allIndices ? list() : set();
+        Collection<List<Calendar.Date>> betweenSet = allIndices ? new ArrayList<>() : new HashSet<>();
         DateMeta meta = new DateMeta();
         Matcher matcher = Util.matcher(regex, text);
         while (matcher.find()) {

@@ -1,5 +1,6 @@
 package com.events.date;
 
+import com.events.DateMatcher;
 import com.events.Util;
 
 import java.util.ArrayList;
@@ -10,11 +11,11 @@ import java.util.regex.Matcher;
 import static com.events.date.Calendar.defaultYearFull;
 import static com.events.date.M_Static.SPACESO;
 
-class MonthExact extends DateMatcher {
+public class MonthExact extends DateMatcher {
     String monthMatcher;
     Map<String, String> monthsStandard;
 
-    MonthExact(String monthMatcher, Map<String, String> monthsStandard) {
+    public MonthExact(String monthMatcher, Map<String, String> monthsStandard) {
         this.monthMatcher = monthMatcher;
         this.monthsStandard = monthsStandard;
     }
