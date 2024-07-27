@@ -1,7 +1,5 @@
 package com.events;
 
-import io.webfolder.ui4j.api.browser.*;
-import io.webfolder.ui4j.api.browser.Page;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -43,20 +41,22 @@ class WebReader {
         CACHE_FOLDER_CURL = WEBCACHE + "cached" + slash + "curl" + slash;
         CACHE_FOLDER_HEADLESS = WEBCACHE + "cached" + slash + "headless" + slash;
         MAPPING_FILE_CURL = CACHE_FOLDER + "mapping_curl.txt";
+        MAPPING_FILE_GOOGLE = CACHE_FOLDER + "mapping_google.txt";
         MAPPING_FILE_SIMPLE_READ = CACHE_FOLDER + "simple_mapping.txt";
-        MAPPING_FILE_HEADLESS = CACHE_FOLDER + "mapping_headless.txt";
         REDIRECTION_FILE_CURL = CACHE_FOLDER + "redirection_curl.txt";
         REDIRECTION_FILE_SIMPLE_READ = CACHE_FOLDER + "redirection_simple.txt";
-        REDIRECTION_FILE_HEADLESS = CACHE_FOLDER + "redirection_headless.txt";
+        REDIRECTION_FILE_GOOGLE = CACHE_FOLDER + "redirection_google.txt";
         TEXT_MAPPING_FILE = CACHE_FOLDER + "text_mapping.txt";
         loadCaches();
     }
 
-    static String WEBCACHE, SLASH, PHANTOM_TEMP, GOOGLE_TEMP, CACHE_FOLDER, CACHE_FOLDER_PHANTOM, CACHE_FOLDER_GOOGLE, CACHE_FOLDER_CURL, CACHE_FOLDER_HEADLESS, MAPPING_FILE_CURL, MAPPING_FILE_SIMPLE_READ, MAPPING_FILE_HEADLESS, REDIRECTION_FILE_CURL, REDIRECTION_FILE_SIMPLE_READ, REDIRECTION_FILE_HEADLESS, TEXT_MAPPING_FILE;
+    static String WEBCACHE, SLASH, PHANTOM_TEMP, GOOGLE_TEMP, CACHE_FOLDER, CACHE_FOLDER_PHANTOM, CACHE_FOLDER_GOOGLE, CACHE_FOLDER_CURL, CACHE_FOLDER_HEADLESS, MAPPING_FILE_CURL, MAPPING_FILE_GOOGLE, MAPPING_FILE_SIMPLE_READ, MAPPING_FILE_HEADLESS, REDIRECTION_FILE_CURL, REDIRECTION_FILE_SIMPLE_READ, REDIRECTION_FILE_GOOGLE, TEXT_MAPPING_FILE;
     static Map<String, String> MEMORY_URL_FILE_CURL = null;
+    static Map<String, String> MEMORY_URL_FILE_GOOGLE = null;
     static Map<String, String> MEMORY_URL_FILE_SIMPLE_READ = null;
     static Map<String, String> MEMORY_REDIRECTION_SIMPLE = null;
     static Map<String, String> MEMORY_REDIRECTION_CURL = null;
+    static Map<String, String> MEMORY_REDIRECTION_GOOGLE = null;
     static boolean OUTPUT_THROTTLES = true, OUTPUT_CACHE_LOCATIONS = false;
     static Map<String, Util.Multi3<Document, String, String>> MEMORY_CACHE_SIMPLE = new HashMap<>(), MEMORY_CACHE_CURL = new HashMap<>();
     static String PHANTOM_JAVASCRIPT = "phantom.js", PHANTOM_JAVASCRIPT_DELAY = "phantomDelay.js";
@@ -220,54 +220,6 @@ class WebReader {
         MEMORY_CACHE_SIMPLE.clear();
     }
 
-    static BrowserEngine webkit = null;
-
-    static Util.Multi3<String, String, String> headless(String url, String click_element, boolean delay) {
-        if (webkit == null) {
-            webkit = BrowserFactory.getBrowser(BrowserType.WebKit);
-        }
-        PageConfiguration pageConfiguration = new PageConfiguration();
-        pageConfiguration.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36");
-        Page page = webkit.navigate(url, pageConfiguration);
-        if (page == null) return null;
-        io.webfolder.ui4j.api.dom.Document document = page.getDocument();
-        if (document == null) return null;
-        if (click_element != null) {
-            String queryString;
-            if (click_element.contains(":")) {
-                String[] split = click_element.split(":");
-                queryString = split[0] + "[" + split[1] + "=\"" + split[2] + "\"]";
-                sout(queryString);
-            } else {
-                queryString = "." + click_element;
-            }
-            Optional<io.webfolder.ui4j.api.dom.Element> query = document.query(queryString);
-            if (query.isPresent()) {
-                query.get().click();
-            }
-        }
-        if (delay) {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException ignored) {
-            }
-        }
-        String outerHTML = (String) page.executeScript("document.body.outerHTML;");
-        String location = url;
-        try {
-            location = page.getWindow().getLocation();
-        } catch (Exception ignored) {
-        }
-        String fileName = null;
-        if (outerHTML != null) {
-            if (WRITE_CACHE_ENABLED.check()) {
-                fileName = WebReader.CACHE_FOLDER_HEADLESS + getTimestamp() + ".html";
-                Util.write(fileName, outerHTML);
-            }
-        }
-        return new Util.Multi3<>(outerHTML, location, fileName);
-    }
-
     static Util.Multi3<Document, String, String> readParseCurl(String url, boolean useReadCacheDirectinvocation) {
         try {
             String url_clean = WebUtils.convertSpecialCharacters(url);
@@ -375,11 +327,34 @@ class WebReader {
         return MEMORY_REDIRECTION_CURL.get(url);
     }
 
+    synchronized static String cachedRedirectionGoogle(String url) {
+        if (MEMORY_REDIRECTION_GOOGLE == null) {
+            MEMORY_REDIRECTION_GOOGLE = Util.readMapSafe(REDIRECTION_FILE_GOOGLE, DELIMITER);
+        }
+        return MEMORY_REDIRECTION_GOOGLE.get(url);
+    }
+
     synchronized static String cachedLocation(String url) {
         if (MEMORY_URL_FILE_SIMPLE_READ == null) {
             MEMORY_URL_FILE_SIMPLE_READ = Util.readMapSafe(MAPPING_FILE_SIMPLE_READ, DELIMITER);
         }
         return MEMORY_URL_FILE_SIMPLE_READ.get(url);
+    }
+
+
+    synchronized static String cachedLocationGoogle(String url) {
+        if (MEMORY_URL_FILE_GOOGLE == null) {
+            MEMORY_URL_FILE_GOOGLE = Util.readMapSafe(MAPPING_FILE_GOOGLE, DELIMITER);
+        }
+        return MEMORY_URL_FILE_GOOGLE.get(url);
+    }
+
+
+    synchronized static String cachedLocationCurl(String url) {
+        if (MEMORY_URL_FILE_CURL == null) {
+            MEMORY_URL_FILE_CURL = Util.readMapSafe(MAPPING_FILE_CURL, DELIMITER);
+        }
+        return MEMORY_URL_FILE_CURL.get(url);
     }
 
     static final String DELIMITER = "#ARCTA#";
@@ -390,16 +365,11 @@ class WebReader {
 
     static void loadCaches() {
         cachedLocationCurl("");
+        cachedLocationGoogle("");
         cachedLocation("");
         cachedRedirection("");
+        cachedRedirectionGoogle("");
         cachedRedirectionCurl("");
-    }
-
-    synchronized static String cachedLocationCurl(String url) {
-        if (MEMORY_URL_FILE_CURL == null) {
-            MEMORY_URL_FILE_CURL = Util.readMapSafe(MAPPING_FILE_CURL, DELIMITER);
-        }
-        return MEMORY_URL_FILE_CURL.get(url);
     }
 
     protected static Util.Multi3<Document, String, String> simple(String url) {
@@ -470,7 +440,18 @@ class WebReader {
         return phantomjsInternal(url, phantomRoot + phantomJavascript, phantomRoot, null);
     }
 
-    static Util.Multi<Document, String> googleChrome(String url, String googleHeadless) {
+    static Util.Multi<Document, String> googleChrome(String url, String googleHeadless, boolean readCache) {
+        if (READ_CACHE_ENABLED.check() && readCache) {
+            String cachedLocation = cachedLocationGoogle(url);
+            if (cachedLocation != null) {
+                String html = Util.readString(cachedLocation);
+                if (!Util.empty(html)) {
+                    Document parse = html != null ? Jsoup.parse(html) : null;
+                    return new Util.Multi<>(parse, cachedLocation);
+                }
+            }
+        }
+
         File file = new File(GOOGLE_TEMP);
         if (file.exists()) {
             file.delete();
@@ -487,9 +468,16 @@ class WebReader {
                 e.printStackTrace();
             }
         }
+        if (WRITE_CACHE_ENABLED.check()) {
+            appendSafe(MAPPING_FILE_GOOGLE, url + DELIMITER + newFileName);
+        }
+        MEMORY_URL_FILE_GOOGLE.put(url, newFileName);
         sout(newFileName);
         String html = Util.readString(newFileName);
         if (html == null || html.length() == 0) return null;
+
+
+
         return new Util.Multi<>(Jsoup.parse(html), newFileName);
     }
 
@@ -601,20 +589,20 @@ class WebReader {
     }
 
     static class Download {
-        static Util.Multi3<Document, String, String> document(Context ctx, String url, BaseDirs dirs, boolean delay) {
-            return document(ctx, url, null, dirs, delay);
+        static Util.Multi3<Document, String, String> document(Context ctx, String url, BaseDirs dirs, boolean delay, boolean useCache) {
+            return document(ctx, url, null, dirs, delay, useCache);
         }
 
-        static Document documentOnly(Context ctx, String url, BaseDirs dirs, boolean delay) {
-            return safeA(documentRedirect(ctx, url, dirs, delay));
+        static Document documentOnly(Context ctx, String url, BaseDirs dirs, boolean delay, boolean useCache) {
+            return safeA(documentRedirect(ctx, url, dirs, delay, useCache));
         }
 
-        static Util.Multi<Document, String> documentRedirect(Context ctx, String url, BaseDirs dirs, boolean delay) {
-            Util.Multi3<Document, String, String> multi = document(ctx, url, dirs, delay);
+        static Util.Multi<Document, String> documentRedirect(Context ctx, String url, BaseDirs dirs, boolean delay, boolean useCache) {
+            Util.Multi3<Document, String, String> multi = document(ctx, url, dirs, delay, useCache);
             return new Util.Multi<>(safeA(multi), safeB(multi));
         }
 
-        static Util.Multi3<Document, String, String> document(Context ctx, String url, String clickElement, BaseDirs dirs, boolean delay) {
+        static Util.Multi3<Document, String, String> document(Context ctx, String url, String clickElement, BaseDirs dirs, boolean delay, boolean useCache) {
             Util.Multi3<Document, String, String> multi;
             if (ctx.downloadCurl()) {
                 multi = Advanced.readParseFromNetworkCurl(url);
@@ -624,18 +612,10 @@ class WebReader {
             } else if (ctx.downloadPhantom()) {
                 Util.Multi<Document, String> documentLocation = WebReader.phantomjs(url, dirs.getPhantomDir(), delay);
                 multi = new Util.Multi3<>(Util.Multi.safeA(documentLocation), url, Util.Multi.safeB(documentLocation));
-            } else if (ctx.downloadGoogle()) {
-                String googleScript = dirs.getGoogleScript(ctx);
-                Util.Multi<Document, String> docLocation = googleChrome(url, googleScript);
-                multi = new Util.Multi3<>(Util.Multi.safeA(docLocation), url, Util.Multi.safeB(docLocation));
             } else {
-                Util.Multi3<String, String, String> webmulti = headless(url, clickElement, delay); //delay
-                if (WebUtils.safeA(webmulti) == null) {
-                    multi = new Util.Multi3<>(null, null, null);
-                    sout("UI4J Download Failed" + (!empty(clickElement) ? " with click element " + clickElement : "") + " for url " + url);
-                } else {
-                    multi = new Util.Multi3<>(Jsoup.parse(webmulti.a), webmulti.b, webmulti.c);
-                }
+                String googleScript = dirs.getGoogleScript(ctx);
+                Util.Multi<Document, String> docLocation = googleChrome(url, googleScript, useCache);
+                multi = new Util.Multi3<>(Util.Multi.safeA(docLocation), url, Util.Multi.safeB(docLocation));
             }
             return new Util.Multi3<>(WebUtils.safeA(multi), WebUtils.safeB(multi), WebUtils.safeC(multi));
         }
@@ -657,7 +637,7 @@ class WebReader {
         }
 
         static Util.Multi<Document, String> googlechrome(String link, BaseDirs dirs, Context ctx) {
-            Util.Multi<Document, String> documentLocation = googleChrome(link, dirs.getGoogleScript(ctx));
+            Util.Multi<Document, String> documentLocation = googleChrome(link, dirs.getGoogleScript(ctx), true);
             return new Util.Multi<>(Util.Multi.safeA(documentLocation), Util.Multi.safeB(documentLocation));
         }
 

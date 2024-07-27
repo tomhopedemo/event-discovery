@@ -23,7 +23,7 @@ public class EventLink {
         if (EXCLUDED_HOSTS.contains(WebUtils.hostProperNoWww(link))) return null;
         Document doc = null;
         if (ctx.link1Download()) {
-            Util.Multi<Document, String> multi = WebReader.Download.documentRedirect(ctx, link, dirs, ctx.downloadDelay());
+            Util.Multi<Document, String> multi = WebReader.Download.documentRedirect(ctx, link, dirs, ctx.downloadDelay(), true);
             doc = safeA(multi);
         } else if (ctx.link1Phantom()) {
             Util.Multi<Document, String> documentLocation = WebReader.Download.phantomjs(link, ctx, dirs, ctx.downloadDelay());
@@ -63,7 +63,7 @@ public class EventLink {
         }
         if (empty(thirdLinkUrl)) return null;
         if (ctx.link3Download()) {
-            Util.Multi3<Document, String, String> multi = WebReader.Download.document(ctx, thirdLinkUrl, null, ctx.downloadDelay());
+            Util.Multi3<Document, String, String> multi = WebReader.Download.document(ctx, thirdLinkUrl, null, ctx.downloadDelay(), true);
             return new Util.Multi<>(safeA(multi), thirdLinkUrl);
         } else if (ctx.link3Phantom()) {
             Util.Multi<Document, String> docLocation = WebReader.Download.phantomjs(thirdLinkUrl, ctx, dirs, ctx.downloadDelay());
@@ -117,13 +117,13 @@ public class EventLink {
         }
         if (secondUrl == null) return null;
         if (ctx.link2Download()) {
-            Util.Multi3<Document, String, String> multi = WebReader.Download.document(ctx, secondUrl, null, ctx.downloadDelay());
+            Util.Multi3<Document, String, String> multi = WebReader.Download.document(ctx, secondUrl, null, ctx.downloadDelay(), true);
             return new Util.Multi<>(safeA(multi), secondUrl);
         } else if (ctx.link2Phantom()) {
             Util.Multi<Document, String> docLocation = WebReader.Download.phantomjs(secondUrl, ctx, dirs, ctx.downloadDelay());
             return new Util.Multi<>(safeA(docLocation), secondUrl);
         } else if (secondUrl.matches(".*/#.+")) {
-            Util.Multi3<Document, String, String> multi = WebReader.Download.document(ctx, secondUrl, null, ctx.downloadDelay());
+            Util.Multi3<Document, String, String> multi = WebReader.Download.document(ctx, secondUrl, null, ctx.downloadDelay(), true);
             return new Util.Multi<>(safeA(multi), secondUrl);
         } else {
             Util.Multi3<Document, String, String> multi = WebReader.readParse(secondUrl);

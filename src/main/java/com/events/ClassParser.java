@@ -343,7 +343,7 @@ class ClassParser {
     }
 
     static boolean reqlink(Context ctx, String link, String reqlink, BaseDirs dirs) {
-        Document document = WebReader.Download.documentOnly(ctx, link, dirs, ctx.downloadDelay());
+        Document document = WebReader.Download.documentOnly(ctx, link, dirs, ctx.downloadDelay(), true);
         if (document == null) return true;
         String text = lowercase(document.text());
         if (empty(text)) return true;

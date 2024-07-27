@@ -7,7 +7,7 @@ import static com.events.ExecutionBlock.*;
 
 class Manual {
     static String city = "london";
-    static String ref = "100 Wardour Street";
+    static String ref = "Strongroom Bar";
     static String executionBlock = "a";
     static Map<String, ExecutionBlock> blocks = createExecutionBlocks();
 

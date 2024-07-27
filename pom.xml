@@ -13,8 +13,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
-                    <source>1.10</source>
-                    <target>1.10</target>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -91,16 +91,6 @@
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-http</artifactId>
             <version>3.8.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.webfolder</groupId>
-            <artifactId>ui4j-webkit</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>openjfx-monocle</artifactId>
-            <version>jdk-9+181.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
         <dependency>

@@ -13,7 +13,7 @@ import static com.events.Primary.REF_EVENTS;
 class DateSplitParser {
     static void make(Context ctx, Dirs dirs) {
         for (Util.Url url : ctx.urls()) {
-            Document doc = WebReader.Download.documentOnly(ctx, url.url, dirs.getBaseDirs(), true);
+            Document doc = WebReader.Download.documentOnly(ctx, url.url, dirs.getBaseDirs(), true, false);
             if (doc == null) return;
             make(ctx, url, doc, dirs);
         }

@@ -19,7 +19,7 @@ class PrimaryWorker {
         String method = multi3.b;
         String identifierType = multi3.c;
         for (Util.Url url : ctx.urls()) {
-            Util.Multi3<Document, String, String> multi = WebReader.Download.document(ctx, url.url, dirs.getBaseDirs(), true);
+            Util.Multi3<Document, String, String> multi = WebReader.Download.document(ctx, url.url, dirs.getBaseDirs(), true, false);
             Document doc = multi.a;
             String redirectedUrl = multi.b;
             if (doc == null) {
@@ -67,7 +67,7 @@ class PrimaryWorker {
             }
             executeProper(ctx, url, method, identifier, identifierType, doc, redirectedUrl, elements, dirs);
             if (!Util.empty(ctx.primaryClick())) {
-                Util.Multi3<Document, String, String> multiClick = WebReader.Download.document(ctx, url.url, ctx.primaryClick(), dirs.getBaseDirs(), true);
+                Util.Multi3<Document, String, String> multiClick = WebReader.Download.document(ctx, url.url, ctx.primaryClick(), dirs.getBaseDirs(), true, false);
                 Element documentClick = multiClick.a;
                 String redirectedUrlClick = multiClick.b;
                 if (documentClick == null) {
@@ -154,7 +154,7 @@ class PrimaryWorker {
 
     static void parseBreak(Context ctx, BaseDirs dirs) {
         for (Util.Url url : ctx.urls()) {
-            Document doc = WebReader.Download.documentOnly(ctx, url.url, dirs, true);
+            Document doc = WebReader.Download.documentOnly(ctx, url.url, dirs, true, false);
             for (String splitBreak : Util.splitList(Jutil.textOnly(doc), "\u2021")) {
                 Util.StringMutable clean = new Util.StringMutable(splitBreak.toLowerCase());
                 List<Calendar.Date> dates = DateMatcher.match(clean, ctx.lang, ctx.date);
