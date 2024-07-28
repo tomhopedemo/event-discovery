@@ -44,9 +44,6 @@ class Remote {
             block = new SecondaryBlock();
         } else if ("manual".equals(executionKey)) {
             block = manualParse(args);
-        } else if ("manualx".equals(executionKey)) {
-            Context.GOOGLE_OVERRIDE = true;
-            block = manualParse(args);
         } else if ("htmlarea".equals(executionKey)) {
             block = htmlAreaParse(args);
         } else {

@@ -13,8 +13,6 @@ public class Context {
     List<String> statuses;
     Interpret interpret;
     List<Util.Url> urls;
-    static boolean GOOGLE_OVERRIDE = false;
-
     LanguageContext lang;
     DateContext date;
     TimeContext time;
@@ -34,9 +32,9 @@ public class Context {
         this.interpret = new Interpret(ref, notes);
         this.statuses = statuses;
         this.lang = new LanguageContext(ref, notes, country);
-        this.date = new DateContext(ref, notes);
-        this.time = new TimeContext(ref, notes);
-        this.datetime = new DateTimeContext(ref, notes);
+        this.date = new DateContext(interpret.contains("_REV_"), interpret.contains("_MWD_"), interpret.contains("_OSLODATE_"));
+        this.time = new TimeContext(interpret.contains("_PM_"), interpret.contains("_DOORS_"));
+        this.datetime = new DateTimeContext(interpret.contains("_REVCOMBO_"));
     }
 
     static final List<String> festivalStatuses = Util.list("F1", "F2", "F3");
@@ -80,10 +78,6 @@ public class Context {
 
     boolean downloadPhantom() {
         return interpret.contains("_PHANTOM_", "_YPHANTOM_");
-    }
-
-    boolean downloadGoogle() {
-        return GOOGLE_OVERRIDE || interpret.contains("_GOOGLE_");
     }
 
     boolean quickGoogle(){
@@ -167,7 +161,7 @@ public class Context {
     }
 
     boolean link1Google() {
-        return GOOGLE_OVERRIDE || interpret.contains("_GOOGLE_", "_GOOGLEX_");
+        return interpret.contains("_GOOGLE_", "_GOOGLEX_");
     }
 
     boolean link1Iframe() {
@@ -579,33 +573,11 @@ public class Context {
         return false;
     }
 
-    public static class TimeContext {
-        Interpret interpret;
+    public record DateContext (boolean dateReverse, boolean dateMwd, boolean dateDottedWdmy) {}
 
-        public TimeContext(String ref, String notes) {
-            this.interpret = new Interpret(ref, notes);
-        }
+    public record TimeContext (boolean timePm, boolean timeDoors){}
 
-        public boolean timePm() {
-            return interpret.contains("_PM_");
-        }
-
-        public boolean timeDoors() {
-            return interpret.contains("_DOORS_");
-        }
-    }
-
-    public static class DateTimeContext {
-        Interpret interpret;
-
-        DateTimeContext(String ref, String notes) {
-            this.interpret = new Interpret(ref, notes);
-        }
-
-        public boolean datetimeReverse() {
-            return interpret.contains("_REVCOMBO_");
-        }
-    }
+    public record DateTimeContext (boolean datetimeReverse) {}
 
     public static class LanguageContext {
         Interpret interpret;
@@ -654,26 +626,6 @@ public class Context {
 
         List<String> prepositionWords() {
             return new ArrayList<>(PREPOSITION_WORDS_ENG);
-        }
-    }
-
-    public static class DateContext {
-        Interpret interpret;
-
-        public DateContext(String ref, String notes) {
-            this.interpret = new Interpret(ref, notes);
-        }
-
-        public boolean dateReverse() {
-            return interpret.contains("_REV_");
-        }
-
-        public boolean dateMwd() {
-            return interpret.contains("_MWD_");
-        }
-
-        public boolean dateDottedWdmy() {
-            return interpret.contains("_OSLODATE_");
         }
     }
 
