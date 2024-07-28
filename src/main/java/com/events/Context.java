@@ -92,8 +92,12 @@ public class Context {
         return interpret.contains("_SCROLL_");
     }
 
-    String downloadClickWait() {
-        return interpret.normal("_CLICKWAIT");
+    String downloadClickButton() {
+        return interpret.normal("_CLICK1");
+    }
+
+    String downloadClickElement() {
+        return interpret.normal("_CLICK2");
     }
 
     List<String> staticDay() {
@@ -202,6 +206,10 @@ public class Context {
 
     boolean link2Download() {
         return interpret.contains("_XHEAD_", "_XXHEAD_");
+    }
+
+    boolean link2Puppeteer() {
+        return interpret.contains("_PUP_");
     }
 
     boolean link2Phantom() {

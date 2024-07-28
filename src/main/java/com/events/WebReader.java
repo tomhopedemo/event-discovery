@@ -35,6 +35,7 @@ class WebReader {
         SLASH = slash;
         PHANTOM_TEMP = WEBCACHE + "phantomtemp" + slash + "output.txt";
         GOOGLE_TEMP = WEBCACHE + "googletemp" + slash + "output.txt";
+        PUPPETEER_TEMP = WEBCACHE + "puppeteertemp" + slash + "output.txt";
         CACHE_FOLDER = WEBCACHE + "cached" + slash;
         CACHE_FOLDER_PHANTOM = WEBCACHE + "cached_phantom" + slash;
         CACHE_FOLDER_GOOGLE = WEBCACHE + "cached_google" + slash;
@@ -50,7 +51,7 @@ class WebReader {
         loadCaches();
     }
 
-    static String WEBCACHE, SLASH, PHANTOM_TEMP, GOOGLE_TEMP, CACHE_FOLDER, CACHE_FOLDER_PHANTOM, CACHE_FOLDER_GOOGLE, CACHE_FOLDER_CURL, CACHE_FOLDER_HEADLESS, MAPPING_FILE_CURL, MAPPING_FILE_GOOGLE, MAPPING_FILE_SIMPLE_READ, MAPPING_FILE_HEADLESS, REDIRECTION_FILE_CURL, REDIRECTION_FILE_SIMPLE_READ, REDIRECTION_FILE_GOOGLE, TEXT_MAPPING_FILE;
+    static String WEBCACHE, SLASH, PHANTOM_TEMP, GOOGLE_TEMP, PUPPETEER_TEMP, CACHE_FOLDER, CACHE_FOLDER_PHANTOM, CACHE_FOLDER_GOOGLE, CACHE_FOLDER_PUPPETEER, CACHE_FOLDER_CURL, CACHE_FOLDER_HEADLESS, MAPPING_FILE_CURL, MAPPING_FILE_GOOGLE, MAPPING_FILE_SIMPLE_READ, MAPPING_FILE_HEADLESS, REDIRECTION_FILE_CURL, REDIRECTION_FILE_SIMPLE_READ, REDIRECTION_FILE_GOOGLE, TEXT_MAPPING_FILE;
     static Map<String, String> MEMORY_URL_FILE_CURL = null;
     static Map<String, String> MEMORY_URL_FILE_GOOGLE = null;
     static Map<String, String> MEMORY_URL_FILE_SIMPLE_READ = null;
@@ -61,6 +62,7 @@ class WebReader {
     static Map<String, Util.Multi3<Document, String, String>> MEMORY_CACHE_SIMPLE = new HashMap<>(), MEMORY_CACHE_CURL = new HashMap<>();
     static String PHANTOM_JAVASCRIPT = "phantom.js", PHANTOM_JAVASCRIPT_DELAY = "phantomDelay.js";
     static String PHANTOM_JAVASCRIPT_SCROLL = "phantomScroll.js", PHANTOM_JAVASCRIPT_CLICK_WAIT = "phantomClick.js";
+    static String PUPPETEER_JAVASCRIPT_CLICK_WAIT = "puppet.js";
     static String PHANTOM_EXECUTABLE = "phantomjs";
     static long THROTTLE_LAST_NULL_HOST = 0L;
     static Map<String, Long> THROTTLE_LAST_MAP = new HashMap<>();
@@ -489,6 +491,44 @@ class WebReader {
         return phantomjsInternal(url, phantomRoot + PHANTOM_JAVASCRIPT_SCROLL, phantomRoot, null);
     }
 
+    static Util.Multi<Document, String> puppeteerInternal(String url, String javascript, String puppeteerRoot, String selector, String element) {
+//        if (READ_CACHE_ENABLED.check()) {
+//            String cachedLocation = cachedLocationPuppeteer(url);
+//            if (cachedLocation != null) {
+//                String html = Util.readString(cachedLocation);
+//                if (!Util.empty(html)) {
+//                    Document parse = html != null ? Jsoup.parse(html) : null;
+//                    return new Util.Multi<>(parse, cachedLocation);
+//                }
+//            }
+//        }
+
+        File file = new File(PUPPETEER_TEMP);
+        if (file.exists()) {
+            file.delete();
+        }
+        write(PUPPETEER_TEMP, "");
+        sout("PUPPETEER " + url);
+        new PuppeteerRunnable(url, javascript, selector, element).run();
+        sout("PUPPETEER COMPLETE for " + url);
+        String newFileName = CACHE_FOLDER_PUPPETEER + "puppeteer" + "_" + getTimestamp() + ".txt";
+        if (file.exists()) {
+            try {
+                java.nio.file.Files.copy(file.toPath(), new File(newFileName).toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+//        if (WRITE_CACHE_ENABLED.check()) {
+//            appendSafe(MAPPING_FILE_GOOGLE, url + DELIMITER + newFileName);
+//        }
+//        MEMORY_URL_FILE_GOOGLE.put(url, newFileName);
+        sout(newFileName);
+        String html = Util.readString(newFileName);
+        if (html == null || html.length() == 0) return null;
+        return new Util.Multi<>(Jsoup.parse(html), newFileName);
+    }
+
     static Util.Multi<Document, String> phantomjsInternal(String url, String javascript, String phantomRoot, String arg3) {
         File file = new File(PHANTOM_TEMP);
         if (file.exists()) {
@@ -563,6 +603,36 @@ class WebReader {
         }
     }
 
+
+    static class PuppeteerRunnable implements Runnable {
+        Process process = null;
+        String url;
+        final String script;
+        String selector;
+        String element;
+
+        PuppeteerRunnable(String url, String script, String selector, String element) {
+            this.url = url;
+            this.script = script;
+            this.selector = selector;
+            this.element = element;
+        }
+
+        public void run() {
+            try {
+                process = new ProcessBuilder(list(script, url, PUPPETEER_TEMP, selector, element))
+                        .inheritIO()
+                        .start();
+                process.waitFor(30, TimeUnit.SECONDS);
+            } catch (Exception ignored) {
+            } finally {
+                if (process != null) {
+                    process.destroy();
+                }
+            }
+        }
+    }
+
     static class DownloadRunnable implements Runnable {
         Process process = null;
         String url;
@@ -621,7 +691,7 @@ class WebReader {
         }
 
         static Util.Multi<Document, String> phantomjs(String link, Context ctx, BaseDirs dirs, boolean delay) {
-            String clickWaitSelector = ctx.downloadClickWait();
+            String clickWaitSelector = ctx.downloadClickButton();
             if (ctx.downloadScroll()) {
                 return phantomScroll(link, dirs);
             } else if (!empty(clickWaitSelector)) {
@@ -629,6 +699,17 @@ class WebReader {
             } else {
                 return phantomjs(link, delay, dirs);
             }
+        }
+
+
+        static Util.Multi<Document, String> puppeteer(String link, Context ctx, BaseDirs dirs) {
+            String clickWaitSelector = ctx.downloadClickButton();
+            String clickElement = ctx.downloadClickElement();
+            if (!empty(clickWaitSelector)) {
+                Multi<Document, String> documentLocation = puppeteerInternal(link, dirs.getPuppeteerDir() + PUPPETEER_JAVASCRIPT_CLICK_WAIT, dirs.getPuppeteerDir(), clickWaitSelector, clickElement);
+                return new Util.Multi<>(Util.Multi.safeA(documentLocation), Util.Multi.safeB(documentLocation));
+            }
+            return null;
         }
 
         static Util.Multi<Document, String> phantomjs(String link, boolean delay, BaseDirs dirs) {

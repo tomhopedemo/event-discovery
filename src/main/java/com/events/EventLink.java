@@ -22,7 +22,10 @@ public class EventLink {
     public static Map<Calendar.Date, Time> make(String link, Context ctx, List<Calendar.Date> dates, BaseDirs dirs) {
         if (EXCLUDED_HOSTS.contains(WebUtils.hostProperNoWww(link))) return null;
         Document doc = null;
-        if (ctx.link1Download()) {
+        if (ctx.link2Puppeteer()){
+            Util.Multi<Document, String> docLocation = WebReader.Download.puppeteer(link, ctx, dirs);
+            doc = safeA(docLocation);
+        } else if (ctx.link1Download()) {
             Util.Multi<Document, String> multi = WebReader.Download.documentRedirect(ctx, link, dirs, ctx.downloadDelay(), true);
             doc = safeA(multi);
         } else if (ctx.link1Phantom()) {

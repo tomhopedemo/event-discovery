@@ -175,7 +175,7 @@ class DataHtml {
 
     Map<String, List<com.events.date.Calendar.Date>> parseFestivalDates(List<String> refs) {
         LanguageContext languageContext = new LanguageContext("", "", "uk");
-        DateContext dateContext = new DateContext("", "");
+        DateContext dateContext = new DateContext(false, false, false);
         Map<String, List<com.events.date.Calendar.Date>> festivalDates = new HashMap<>();
         for (String ref : refs) {
             String notes = inputData.getNotes(ref);

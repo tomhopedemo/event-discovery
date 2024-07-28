@@ -37,6 +37,14 @@ class BaseDirs {
         }
     }
 
+    String getPuppeteerDir() {
+        if (LOCAL.equals(type)) {
+            return getRoot() + "puppeteer/";
+        } else {
+            return "/usr/lib/phantomjs/bin/";
+        }
+    }
+
     String getGoogleScript(Context ctx) {
         String root = LOCAL.equals(type) ? getRoot() : "/usr/lib/";
         return root + "googlechrome/" + (ctx.quickGoogle() ? "headlessQuick.sh" : "headless.sh");
