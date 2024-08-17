@@ -69,7 +69,7 @@ class Remote {
 
     static ExecutionBlock manualParse(String[] args) {
         if (args.length != 3) {
-            sout("Manual arguments not set - terminating");
+            sout("Control arguments not set - terminating");
             return null;
         }
         return new ManualRerunBlock(args[2]);

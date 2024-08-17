@@ -2,6 +2,7 @@ package com.events.date;
 
 import com.events.Context;
 import com.events.Util;
+import com.events.date.time.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -13,7 +14,7 @@ import static com.events.date.M_Static.SPACESO;
 import static com.events.Util.list;
 
 public abstract class TimeMatcher {
-    abstract List<Time> match(Util.StringMutable clean);
+    protected abstract List<Time> match(Util.StringMutable clean);
 
     List<Time> match(Util.StringMutable clean, boolean exact_match) {
         return match(clean);
@@ -37,8 +38,8 @@ public abstract class TimeMatcher {
     }
 
     static final String M_TIME = "([0-9]{1,2})" + "[:|\\.]" + "([0-5][0|5])";
-    static final String M_TIME_AM = M_TIME + SPACESO + "(am|pm|p\\.m\\.)";
-    static final String M_TIME_AMO = M_TIME + SPACESO + "(am|pm)?";
+    public static final String M_TIME_AM = M_TIME + SPACESO + "(am|pm|p\\.m\\.)";
+    public static final String M_TIME_AMO = M_TIME + SPACESO + "(am|pm)?";
 
     static List<Time> preferredTime(List<Time> match) {
         List<Time> preferred = list();

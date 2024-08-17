@@ -15,7 +15,7 @@ public class Time implements Serializable {
     public Integer endIndex; //matcher end index
     public Integer distance; //distance
     public String provenance; //methodology
-    boolean priority = false; //high_priority
+    public boolean priority = false; //high_priority
 
     public String getHour() {
         return timeHour;
@@ -88,7 +88,7 @@ public class Time implements Serializable {
         }
     }
 
-    static String intuitiveConversionA(int from_hour, int to_hour, String to_hour_am_pm) {
+    public static String intuitiveConversionA(int from_hour, int to_hour, String to_hour_am_pm) {
         if (from_hour <= to_hour) {
             return to_hour_am_pm;
         } else if (from_hour == 12 && "pm".equals(to_hour_am_pm)) {
@@ -98,11 +98,11 @@ public class Time implements Serializable {
         }
     }
 
-    void convertTo24H() {
+    public void convertTo24H() {
         convertTo24H(null);
     }
 
-    void convertTo24H(Integer implied_pm) {
+    public void convertTo24H(Integer implied_pm) {
         if (amPm == null) {
             intuitiveConversion(implied_pm);
             return;

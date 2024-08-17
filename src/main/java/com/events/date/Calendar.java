@@ -23,8 +23,8 @@ public class Calendar {
      * To be updated manually around new years day
      */
     static String CURRENT_YEAR_ABBREV = "24";
-    static String PREVIOUS_YEAR_ABBREV = "23";
-    static final String M_YEAR_CUR_OR_NEX = "(" + CURRENT_YEAR_ABBREV + "|" + NEXT_YEAR_ABBREV + ")";
+    public static String PREVIOUS_YEAR_ABBREV = "23";
+    public static final String M_YEAR_CUR_OR_NEX = "(" + CURRENT_YEAR_ABBREV + "|" + NEXT_YEAR_ABBREV + ")";
     static final List<String> FIRST_THREE_MONTHS = list("jan", "feb", "mar");
     /**
      * These are maintained for the purposes of intuiting year by date matchers which don't identify year directly,
@@ -89,7 +89,7 @@ public class Calendar {
         return Util.sublist(DAY_CALENDAR, indexOfCurrent(), indexOfCurrent() + (weeks * 7));
     }
 
-    static String defaultYearAbbrev(String month) {
+    public static String defaultYearAbbrev(String month) {
         if (LAST_THREE_MONTHS.contains(CURRENT_CALENDAR_DATE.dateMonth)) {
             if (FIRST_THREE_MONTHS.contains(month)) {
                 return NEXT_YEAR_ABBREV;
@@ -98,7 +98,7 @@ public class Calendar {
         return CURRENT_YEAR_ABBREV;
     }
 
-    static String defaultYearAbbrev() {
+    public static String defaultYearAbbrev() {
         return CURRENT_YEAR_ABBREV;
     }
 
@@ -106,7 +106,7 @@ public class Calendar {
         return "20" + defaultYearAbbrev();
     }
 
-    static String defaultYearFull(String month) {
+    public static String defaultYearFull(String month) {
         return "20" + defaultYearAbbrev(month);
     }
 

@@ -1,13 +1,17 @@
 package com.events.date;
 
 import com.events.*;
+import com.events.date.datetime.SingleTimeSingleDate;
+import com.events.date.datetime.SlashDotDateSingleTime;
+import com.events.date.single.SingleDateSingleTime;
+import com.events.date.single.SingleDateSingleTimeAmPm;
 
 import java.util.List;
 
 import static com.events.Util.list;
 
 public abstract class DateTimeMatcher {
-    abstract Util.MultiList<Calendar.Date, Time> matchInternal(String text);
+    public abstract Util.MultiList<Calendar.Date, Time> matchInternal(String text);
 
     public static Util.MultiList<Calendar.Date, Time> match(String text, Context.TimeContext timeCtx, Context.DateTimeContext datetimeCtx) {
         Util.MultiList<Calendar.Date, Time> date_times = new Util.MultiList<>();
