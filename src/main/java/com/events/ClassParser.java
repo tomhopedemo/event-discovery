@@ -234,6 +234,9 @@ class ClassParser {
     static Event constructEvent(Context ctx, StringMutable clean, String link, List<Date> dates, String linkText, String original, String source, Element element, String redirectedUrl, Dirs dirs) {
         if (almostBlank(ctx, clean, "1")) return null;
         Time time = Parse.getTime(ctx, clean, linkText);         //TIME
+        if (time == null){
+            time = new Time("19", "00"); //now everything is set with a time if not found.
+        }
         String septext = Parse.septext(ctx, element);
         if (almostBlank(ctx, clean, "2")) return null;
         Event event = new Event(ctx.ref);

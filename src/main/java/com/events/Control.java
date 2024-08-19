@@ -11,11 +11,12 @@ import static com.events.ExecutionBlock.*;
  * 3. next.js app to access rest endpoint
  * 4. package structure to become com.events -> events
  * 5 (from datetime-regex, additional package structure)
+ * 6 (output - exclusions to appear before the displayed events )
  */
 
 class Control {
     static String city = "london";
-    static String ref = "Bush Theatre";
+    static String ref = "The Barbican Centre Theatre";
     static String executionBlock = "a";
     static Map<String, ExecutionBlock> blocks = createExecutionBlocks();
 

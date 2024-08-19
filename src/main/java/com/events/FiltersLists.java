@@ -24,7 +24,7 @@ class FiltersLists {
     static final List<String> REMOVE_FROM_ENDS_OF_PARTS_LONG = Util.list("live");
     static final List<String> SOLDOUT_INDICATORS = Util.list("sold out", "fully booked", "ausverkauft");
     static final List<String> EXC_FIRST_3 = Util.list("members", "closed", "closure", "brunch", "bsl", "course:", "dj");
-    static final List<String> EXC_FIRST_6_PHRASE = Util.list("audio description");
+    static final List<String> EXC_FIRST_6_PHRASE = Util.list("audio description", "backstage tours");
     static final List<String> EXC_FIRST_6 = Util.list("workshop", "workshop:", "workshops", "teachers'", "teachers\u2019", "\u00AE");
     static final List<String> EXC_WEBINAR = Util.list("webinar");
     static final List<String> EXC_FIRST_6_CHURCH = Util.list("communion");
