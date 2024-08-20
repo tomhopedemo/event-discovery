@@ -1,17 +1,22 @@
 package com.events;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.seda.SedaComponent;
 import org.apache.camel.impl.DefaultCamelContext;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.events.Util.readString;
 import static org.apache.camel.Exchange.*;
-class ApiServer {
+public class ApiServer {
     final Dirs dirs;
-    ApiServer(Dirs dirs) {
+    public ApiServer(Dirs dirs) {
         this.dirs = dirs;
     }
     void run() {
@@ -39,16 +44,29 @@ class ApiServer {
             try { String date = exchange.getIn().getHeader("date", String.class);
                 if (Util.empty(date) || !date.matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}")){
                     exchange.getMessage().setHeaders(Map.of(HTTP_RESPONSE_CODE, "500", CONTENT_TYPE, "text/plain"));
-                    exchange.getMessage().setBody("Unable to parse date\n");return;
+                    exchange.getMessage().setBody("Unable to parse date\n");
+                    return;
                 }
-                String response = readString(dirs.getTsvDir() + date + ".tsv");
-                if (!Util.empty(response)){
-                    response = response + "\n";
+
+                String tsv = readString(dirs.getTsvDir() + date + ".tsv");
+                String response = "";
+                if (!Util.empty(tsv)){
+                    List<EventObject> eventObjects = new ArrayList<>();
+                    for (String line : Util.split(tsv, "\n").underlying) {
+                        Util.NList split = Util.split(line, "\t");
+                        if ("title".equals(split.get(0))) continue;
+                        eventObjects.add(new EventObject(split.get(0), split.get(1), split.get(2), split.get(3)));
+                    }
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    response = gson.toJson(eventObjects);
                 }
-                exchange.getIn().setBody(response);
+                exchange.getIn().setBody(response + "\n");
             } catch (Exception ignored){}
         }
     }
+
+    record EventObject (String title, String organizer, String time, String url){}
+
     void configQueue(CamelContext ctx) {
         SedaComponent c = new SedaComponent();
         c.setQueueSize(3);

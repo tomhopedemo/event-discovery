@@ -77,8 +77,7 @@ class Html {
         }
         sout("Writing: " + htmlFile);
         Util.write(htmlFile, html);
-        if (("anywhere".equals(ctx.area))) {
-            sout("writing tsv");
+        if (ctx.area == null) {
             String month = padleft(valueOf((MONTHS_ORDER.indexOf(date.dateMonth) + 1)), '0', 2);
             String paddedDay = padleft(valueOf(date.dateDay), '0', 2);
             String tsvFile = dirs.getTsvDir() + year + "-" + month + "-" + paddedDay + ".tsv";
